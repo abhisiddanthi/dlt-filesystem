@@ -1,3 +1,2 @@
 Encoder/build/
-Encoder/Proto/
-Decoder/Proto/
+Decoder/logger_proto.pb2.py

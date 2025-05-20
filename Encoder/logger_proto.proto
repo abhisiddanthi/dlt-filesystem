@@ -1,0 +1,68 @@
+syntax = "proto3";
+//May need to make different messages for ORIN, AURIX and FSI
+//This is a temporary file to show POC
+
+message Time {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+
+  int32 hours = 4;
+  int32 minutes = 5;
+  int32 seconds = 6;
+  int32 nanos = 7;
+}
+
+message Timestamp {
+    int32 index = 1;
+    int32 timestamp = 2;
+}
+
+message Log {
+    int64 index = 1;
+    Time time = 2;
+    Timestamp timestamp = 3;
+
+    enum EcuId {
+        ORIN = 0;
+        AURIX = 1;
+        FSI = 2;
+    }
+
+    enum ApId {
+        VIOS = 0;
+        SYSL = 1;
+        VUig = 2;
+        VDIS = 3;
+        VSVS = 4;
+        //More need to be added (Need to contact someone who knows all fields of the DLT)
+    }
+
+    enum CtId {
+        core = 0;
+        sysl = 1;
+        vuig = 2;
+        //More need to be added (Need to contact someone who knows all fields of the DLT)
+    }
+
+    enum Type {
+        //Need to reconfirm whether these are the correct types
+        default = 0;
+        off = 1;
+        error = 2;
+        warn = 3;
+        info = 4;
+        debug = 5;
+        verbose = 6;
+    }
+
+    EcuId ecuid = 4;
+    ApId apid = 5;
+    CtId ctid = 6;
+    Type type = 7;
+
+    //Need to see whether payload is a struct and how it varies in different logs
+    //For now considering payload as a string
+
+    string payload = 8;
+}

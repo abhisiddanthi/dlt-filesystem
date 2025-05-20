@@ -1,5 +1,7 @@
 # dlt-filesystem
 Creating a dlt pipeline for an custom dlt format
 
-libprotoc 31.0 is used in this system as the compiler (PLease use compatible compilers for both encoding and decoding)
-Place the compiled files in new Proto folder in both Decoder and Encoder to ensure path safety
+- We are using local version of libprotoc (3.6.1) 
+- Make sure proto files are in the same depth as their parents
+- Encoder builds the protobuf files on it's own and path specified in main.cpp (Don't change path)
+- Make the build for encoder before using (creates a function called encoder)

@@ -5,12 +5,12 @@ find_package(Protobuf REQUIRED)
 
 include_directories(${Protobuf_INCLUDE_DIRS})
 
-set(PROTO_FILE addressbook.proto)
+set(PROTO_FILE logger_proto.proto)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
 
 set(SOURCE_FILES main.cpp ${PROTO_SRCS})
 
-add_executable(my_program ${SOURCE_FILES})
+add_executable(encoder ${SOURCE_FILES})
 
-target_link_libraries(my_program ${Protobuf_LIBRARIES})
+target_link_libraries(encoder ${Protobuf_LIBRARIES})
