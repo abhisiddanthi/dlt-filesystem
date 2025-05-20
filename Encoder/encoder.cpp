@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 #include "./build/logger.pb.h"
+#include <fstream>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 using namespace std;
 
@@ -8,8 +11,7 @@ int main() {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     
     //Code to take input from JSON and put into Log Class
-    
-    
+
     //Code to encode the log object to string (Should be 1-2 lines max)
     
     //Code to log that one line onto a dlt file 
