@@ -7,6 +7,7 @@ int main() {
     //Code to take input from JSON and put into Log Class
     
     
+    
     //Code to encode the log object to string (Should be 1-2 lines max)
     
     //Code to log that one line onto a dlt file 
