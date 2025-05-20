@@ -15,5 +15,3 @@ find_package(jsoncpp REQUIRED)
 include_directories(${JSONCPP_INCLUDE_DIRS})
 
 add_executable(encoder ${SOURCE_FILES})
-
-target_link_libraries(encoder ${Protobuf_LIBRARIES} jsoncpp)
