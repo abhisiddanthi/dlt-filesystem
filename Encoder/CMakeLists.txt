@@ -11,7 +11,4 @@ protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
 
 set(SOURCE_FILES encoder.cpp ${PROTO_SRCS})
 
-find_package(jsoncpp REQUIRED)
-include_directories(${JSONCPP_INCLUDE_DIRS})
-
 add_executable(encoder ${SOURCE_FILES})
