@@ -41,16 +41,24 @@ int main() {
     ifstream f("../input.json");
     json data = json::parse(f);
 
+    //Temporary Output File
+    ofstream outputFile("../output.txt");
+
     //Code to encode the log object to string (Should be 1-2 lines max)
     for(auto element : data) {
         Log log = toProto(element);
         string encodedMessage;
         log.SerializeToString(&encodedMessage);
+        if(outputFile.is_open()) outputFile << encodedMessage << endl;
+        else cerr << "Unable to open file" << endl;
     }
+
+    outputFile.close();
     
     //Code to log that one line onto a dlt file 
     //(Couldn't find cpp library for that might have to use python for the POC)
     //Or can do a fake call to aralogger but still need to use some library for POC
+
 
 
     //Final dlt file should have all Json objects in the input.json file
