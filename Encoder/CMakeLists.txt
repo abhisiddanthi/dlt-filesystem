@@ -12,3 +12,5 @@ protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
 set(SOURCE_FILES encoder.cpp ${PROTO_SRCS})
 
 add_executable(encoder ${SOURCE_FILES})
+
+target_link_libraries(encoder ${Protobuf_LIBRARIES})
