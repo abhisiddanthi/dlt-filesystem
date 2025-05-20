@@ -2,23 +2,23 @@ syntax = "proto3";
 //May need to make different messages for ORIN, AURIX and FSI
 //This is a temporary file to show POC
 
-message Time {
-  int32 year = 1;
-  int32 month = 2;
-  int32 day = 3;
-
-  int32 hours = 4;
-  int32 minutes = 5;
-  int32 seconds = 6;
-  int32 nanos = 7;
-}
-
-message Timestamp {
-    int32 index = 1;
-    int32 timestamp = 2;
-}
-
 message Log {
+    message Time {
+    int32 year = 1;
+    int32 month = 2;
+    int32 day = 3;
+
+    int32 hours = 4;
+    int32 minutes = 5;
+    int32 seconds = 6;
+    int32 nanos = 7;
+    }
+
+    message Timestamp {
+        int32 index = 1;
+        int32 timestamp = 2;
+    }
+
     int64 index = 1;
     Time time = 2;
     Timestamp timestamp = 3;

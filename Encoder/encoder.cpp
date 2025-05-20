@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
 #include "./build/logger.pb.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -6,13 +7,46 @@ using json = nlohmann::json;
 
 using namespace std;
 
+Log toProto(json element) {
+    Log log;
+    log.set_index(element["index"]);
+
+    Time& time = *log.mutable_time();
+    time.set_year(element["time"]["year"]);
+    time.set_month(element["time"]["month"]);
+    time.set_day(element["time"]["day"]);
+    time.set_hours(element["time"]["hours"]);
+    time.set_minutes(element["time"]["minutes"]);
+    time.set_seconds(element["time"]["seconds"]);
+    time.set_nanos(element["time"]["nanos"]);
+    
+    Timestamp& timestamp = *log.mutable_timestamp();
+    timestamp.set_index(element["timestamp"]["index"]);
+    timestamp.set_timestamp(element["timestamp"]["timestamp"]);
+
+    log.set_ecuid(element["ecuid"]);
+    log.set_apid(element["apid"]);
+    log.set_ctid(element["ctid"]);
+    log.set_type(element["type"]);
+    log.set_payload(element["payload"]);
+
+    return log;
+}
+
 int main() {
     //To verify correct protobuf 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     
     //Code to take input from JSON and put into Log Class
+    ifstream f("../input.json");
+    json data = json::parse(f);
 
     //Code to encode the log object to string (Should be 1-2 lines max)
+    for(auto element : data) {
+        Log log = toProto(element);
+        string encodedMessage;
+        log.SerializeToString(&encodedMessage);
+    }
     
     //Code to log that one line onto a dlt file 
     //(Couldn't find cpp library for that might have to use python for the POC)
