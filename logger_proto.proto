@@ -24,24 +24,24 @@ message Log {
     Timestamp timestamp = 3;
 
     enum EcuId {
-        ORIN = 1;
-        AURIX = 2;
-        FSI = 3;
+        ORIN = 0;
+        AURIX = 1;
+        FSI = 2;
     }
 
     enum ApId {
-        VIOS = 1;
-        SYSL = 2;
-        VUig = 3;
-        VDIS = 4;
-        VSVS = 5;
+        VIOS = 0;
+        SYSL = 1;
+        VUig = 2;
+        VDIS = 3;
+        VSVS = 4;
         //More need to be added (Need to contact someone who knows all fields of the DLT)
     }
 
     enum CtId {
-        CORE = 1;
-        SYSL = 2;
-        vuig = 3;
+        core = 0;
+        sysl = 1;
+        vuig = 2;
         //More need to be added (Need to contact someone who knows all fields of the DLT)
     }
 
@@ -56,7 +56,7 @@ message Log {
         verbose = 6;
     }
 
-    Ecuid ecuid = 4;
+    EcuId ecuid = 4;
     ApId apid = 5;
     CtId ctid = 6;
     Type type = 7;
