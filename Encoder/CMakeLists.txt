@@ -9,7 +9,7 @@ set(PROTO_FILE logger_proto.proto)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
 
-set(SOURCE_FILES main.cpp ${PROTO_SRCS})
+set(SOURCE_FILES encoder.cpp ${PROTO_SRCS})
 
 add_executable(encoder ${SOURCE_FILES})
 

@@ -4,7 +4,9 @@
 using namespace std;
 
 int main() {
+    //To verify correct protobuf 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+    
     //Code to take input from JSON and put into Log Class
     
     
