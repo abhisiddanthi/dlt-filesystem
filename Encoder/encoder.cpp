@@ -58,7 +58,8 @@ int main()
         else
             cerr << "Unable to open file" << endl;
 
-        dltFile << "DLT_LOG: " << log.DebugString() << endl;
+        // Write raw binary to .dlt file
+        dltFile.write(encodedMessage.data(), encodedMessage.size());
     }
 
     outputFile.close();
