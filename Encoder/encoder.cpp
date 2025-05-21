@@ -7,11 +7,12 @@ using json = nlohmann::json;
 
 using namespace std;
 
-Log toProto(json element) {
+Log toProto(json element)
+{
     Log log;
     log.set_index(element["index"]);
 
-    Time& time = *log.mutable_time();
+    Time &time = *log.mutable_time();
     time.set_year(element["time"]["year"]);
     time.set_month(element["time"]["month"]);
     time.set_day(element["time"]["day"]);
@@ -19,8 +20,8 @@ Log toProto(json element) {
     time.set_minutes(element["time"]["minutes"]);
     time.set_seconds(element["time"]["seconds"]);
     time.set_nanos(element["time"]["nanos"]);
-    
-    Timestamp& timestamp = *log.mutable_timestamp();
+
+    Timestamp &timestamp = *log.mutable_timestamp();
     timestamp.set_index(element["timestamp"]["index"]);
     timestamp.set_timestamp(element["timestamp"]["timestamp"]);
 
@@ -33,35 +34,42 @@ Log toProto(json element) {
     return log;
 }
 
-int main() {
-    //To verify correct protobuf 
+int main()
+{
+    // To verify correct protobuf
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    
-    //Code to take input from JSON and put into Log Class
+
+    // Code to take input from JSON and put into Log Class
     ifstream f("../input.json");
     json data = json::parse(f);
 
-    //Temporary Output File
+    // Temporary Output File
     ofstream outputFile("../output.txt");
+    ofstream dltFile("../output.dlt"); // For simulated DLT logs
 
-    //Code to encode the log object to string (Should be 1-2 lines max)
-    for(auto element : data) {
+    // Code to encode the log object to string (Should be 1-2 lines max)
+    for (auto element : data)
+    {
         Log log = toProto(element);
         string encodedMessage;
         log.SerializeToString(&encodedMessage);
-        if(outputFile.is_open()) outputFile << encodedMessage << endl;
-        else cerr << "Unable to open file" << endl;
+        if (outputFile.is_open())
+            outputFile << encodedMessage << endl;
+        else
+            cerr << "Unable to open file" << endl;
+
+        // Write raw binary to .dlt file
+        dltFile.write(encodedMessage.data(), encodedMessage.size());
     }
 
     outputFile.close();
-    
-    //Code to log that one line onto a dlt file 
+    dltFile.close();
+
+    // Code to log that one line onto a dlt file
     //(Couldn't find cpp library for that might have to use python for the POC)
-    //Or can do a fake call to aralogger but still need to use some library for POC
+    // Or can do a fake call to aralogger but still need to use some library for POC
 
-
-
-    //Final dlt file should have all Json objects in the input.json file
+    // Final dlt file should have all Json objects in the input.json file
 
     return 0;
 }
