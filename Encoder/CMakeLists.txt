@@ -31,5 +31,4 @@ add_executable(encoder ${SOURCE_FILES})
 
 target_link_libraries(encoder PRIVATE ${Protobuf_LIBRARIES})
 target_link_libraries(encoder PRIVATE nlohmann_json::nlohmann_json)
-
 target_link_libraries(encoder PRIVATE ${DLT_LIB})
