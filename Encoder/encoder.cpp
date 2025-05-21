@@ -47,8 +47,8 @@ int main()
     ofstream outputFile("../output.txt");
     ofstream dltFile("../output.dlt"); // For simulated DLT logs
 
-        // Code to encode the log object to string (Should be 1-2 lines max)
-        for (auto element : data)
+    // Code to encode the log object to string (Should be 1-2 lines max)
+    for (auto element : data)
     {
         Log log = toProto(element);
         string encodedMessage;
@@ -57,6 +57,8 @@ int main()
             outputFile << encodedMessage << endl;
         else
             cerr << "Unable to open file" << endl;
+
+        dltFile << "DLT_LOG: " << log.DebugString() << endl;
     }
 
     outputFile.close();
