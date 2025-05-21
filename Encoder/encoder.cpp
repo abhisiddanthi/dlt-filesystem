@@ -92,3 +92,13 @@ int main()
 
     return 0;
 }
+
+
+//SET THE LD_LIBRARY_PATH 
+//export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+//THEN RUN THE DLT-DAEMON
+//dlt-receive -o encoder_logs.dlt localhost
+
+
+
