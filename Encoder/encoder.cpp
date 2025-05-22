@@ -57,16 +57,18 @@ int main()
         string encodedMessage;
         log.SerializeToString(&encodedMessage);
 
-        string serializedToHex;
+        string serializedToHex = "start";
         ostringstream hex_stream;
         for (unsigned char c : encodedMessage) {
             hex_stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c);
         }
 
-        serializedToHex = hex_stream.str();
+        serializedToHex += hex_stream.str();
+
+        cout<<serializedToHex<<"\n";
 
         // Log the encoded message to DLT
-        DLT_LOG(ctx, DLT_LOG_INFO, DLT_CSTRING("Encoded Protobuf Message:"), DLT_CSTRING(serializedToHex.c_str()));
+        DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(serializedToHex.c_str()));
     }
 
     // Unregister context and app
