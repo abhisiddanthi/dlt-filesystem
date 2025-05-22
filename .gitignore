@@ -1,3 +1,6 @@
 Encoder/build/    
 dlt-daemon
 .vscode
+Encoder/output.dlt
+Encoder/output.txt
+Decoder/__pycache__
