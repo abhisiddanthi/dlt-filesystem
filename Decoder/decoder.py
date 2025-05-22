@@ -6,9 +6,9 @@ from google.protobuf.json_format import MessageToDict
 
 data = []
 
-for mesage in DltFileReader("./DLTS/encoder_logs.dlt"):
-    message = "0801121308e20f1004181c2016282f301d38d8dacab7031a080801108ab2b0c106200230013805421053616d706c65207061796c6f61642031"
-    binary_data = binascii.unhexlify(message)
+for message in DltFileReader("./DLTS/simlogs.dlt"):
+    serializedHex = str(message.payload).rstrip()
+    binary_data = binascii.unhexlify(serializedHex)
 
     decoded = logger.Log()
     decoded.ParseFromString(binary_data)
