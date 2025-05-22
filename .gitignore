@@ -4,4 +4,7 @@ dlt-daemon
 Encoder/output.dlt
 Encoder/output.txt
 Decoder/__pycache__
+<<<<<<< HEAD
 Decoder/DLTS
+=======
+>>>>>>> adfd834a42e9d920c76142c090c3b6151b3f7378
