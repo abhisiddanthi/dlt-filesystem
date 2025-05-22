@@ -2,8 +2,9 @@
 #include <string>
 #include "./build/logger.pb.h"
 #include <fstream>
+#include <sstream>
 #include <nlohmann/json.hpp>
-#include <dlt/dlt.h> //DLT Logging
+#include <dlt/dlt.h>
 
 using json = nlohmann::json;
 
@@ -41,64 +42,42 @@ Log toProto(json element)
 
 int main()
 {
-    // To verify correct protobuf
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     // Register the DLT application and context
     DLT_REGISTER_APP("ENCD", "Encoder Application");
     DLT_REGISTER_CONTEXT(ctx, "ENC1", "Encoder Context");
 
-    // Code to take input from JSON and put into Log Class
-    ifstream f("../input.json"); // open input json file
-    json data = json::parse(f);  // parse json into a list of objects
+    ifstream f("../input.json"); 
+    json data = json::parse(f);  
 
-    // Temporary Output File
-    // ofstream outputFile("../output.txt");
-    // ofstream dltFile("../output.dlt"); // For simulated DLT logs
-
-    // Code to encode the log object to string (Should be 1-2 lines max)
     for (auto element : data)
     {
         Log log = toProto(element);
         string encodedMessage;
         log.SerializeToString(&encodedMessage);
 
+        string serializedToHex;
+        ostringstream hex_stream;
+        for (unsigned char c : encodedMessage) {
+            hex_stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c);
+        }
 
-        //if (outputFile.is_open())
-         //   outputFile << encodedMessage << endl;
-        //else
-          //  cerr << "Unable to open file" << endl;
-
-
+        serializedToHex = hex_stream.str();
 
         // Log the encoded message to DLT
-        DLT_LOG(ctx, DLT_LOG_INFO, DLT_CSTRING("Encoded Protobuf Message:"), DLT_CSTRING(encodedMessage.c_str()));
+        DLT_LOG(ctx, DLT_LOG_INFO, DLT_CSTRING("Encoded Protobuf Message:"), DLT_CSTRING(serializedToHex.c_str()));
     }
 
     // Unregister context and app
     DLT_UNREGISTER_CONTEXT(ctx);
     DLT_UNREGISTER_APP();
 
-    // Write raw binary to .dlt file
-    // dltFile.write(encodedMessage.data(), encodedMessage.size());
-    // outputFile.close();
-    // dltFile.close();
-
-    // Code to log that one line onto a dlt file
-    //(Couldn't find cpp library for that might have to use python for the POC)
-    // Or can do a fake call to aralogger but still need to use some library for POC
-
-    // Final dlt file should have all Json objects in the input.json file
-
     return 0;
 }
 
 
-//SET THE LD_LIBRARY_PATH 
-//export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
-//THEN RUN THE DLT-DAEMON
-//dlt-receive -o encoder_logs.dlt localhost
 
 
 
