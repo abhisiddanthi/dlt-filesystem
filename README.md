@@ -39,7 +39,7 @@ Creating a dlt pipeline for an custom dlt format
 
 ```bash
 # Clone this project
-$ git clone https://github.com/abhisiddanthi/jsonviewer
+$ git clone https://github.com/abhisiddanthi/dlt-filesystem
 
 # Access
 $ cd jsonviewer
