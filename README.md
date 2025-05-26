@@ -11,7 +11,7 @@ This JSON viewer is a simple GUI-based tool that allows users to load a JSON fil
 
 - The file <a href="./Decoder/decoder.py">```decoder.py```</a> is used to decode the *.dlt* file that we obtain. (<a href="./Decoder/sinewave.dlt">```sinewave.dlt```</a>)
 - The library <a href="https://pypi.org/project/pydlt/">pydlt</a> is used. 
-- The decoder code takes a *.dlt* file as an input and the python proto library (after compilation using Protoc compiler) to decode the strings which are in binary ASCII format.<br>
+- The decoder code takes a *.dlt* file as an input and the python proto library (after compilation using Protoc compiler) to decode the strings which are in binary ASCII format. This can be seen in the .txt file linked above.<br>
 This is the <a href="./Decoder/sine_wave_pb2.py">```X_pb2.py```</a> file (The linked file is for sin wave proto)
 - The binary string is then converted into a proto object which can be used to put the struct data into any format we wish.\
 Here we have put the proto data into a *.json* in <a href="./Decoder/sinewaveout.json>">```sinewaveout.json```</a> 
