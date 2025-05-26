@@ -1,63 +1,65 @@
 #include <iostream>
 #include <string>
-#include "./build/logger.pb.h"
+#include "./build/sine_wave.pb.h"
 #include <fstream>
 #include <sstream>
 #include <nlohmann/json.hpp>
-#include <dlt/dlt.h>
+
+#define DLT_HEADER_SIZE 12
 
 using json = nlohmann::json;
 
 using namespace std;
 
-// Declare a global DLT context
-DLT_DECLARE_CONTEXT(ctx);
+void write_dlt_log(const std::string &filename, const std::string &message) {
+    std::ofstream file(filename, std::ios::binary | std::ios::app);
+    if (!file) {
+        std::cerr << "Error opening file!" << std::endl;
+        return;
+    }
 
-Log toProto(json element)
+    unsigned char header[DLT_HEADER_SIZE] = {0};
+    header[0] = 0x01;  
+    header[1] = 0x02;  
+    header[2] = (message.size() >> 8) & 0xFF;  
+    header[3] = message.size() & 0xFF;  
+
+    std::memcpy(header + 4, "ECU1", 4);
+
+    std::memcpy(header + 8, "\x00\x00\x00\x10", 4);
+
+    file.write(reinterpret_cast<char *>(header), DLT_HEADER_SIZE);
+    file.write(message.c_str(), message.size());
+
+    file.close();
+    std::cout << "Log written: " << message << std::endl;
+}
+
+SineWavePoint toProto(const json &element)
 {
-    Log log;
-    log.set_index(element["index"]);
-
-    Time &time = *log.mutable_time();
-    time.set_year(element["time"]["year"]);
-    time.set_month(element["time"]["month"]);
-    time.set_day(element["time"]["day"]);
-    time.set_hours(element["time"]["hours"]);
-    time.set_minutes(element["time"]["minutes"]);
-    time.set_seconds(element["time"]["seconds"]);
-    time.set_nanos(element["time"]["nanos"]);
-
-    Timestamp &timestamp = *log.mutable_timestamp();
-    timestamp.set_index(element["timestamp"]["index"]);
-    timestamp.set_timestamp(element["timestamp"]["timestamp"]);
-
-    log.set_ecuid(element["ecuid"]);
-    log.set_apid(element["apid"]);
-    log.set_ctid(element["ctid"]);
-    log.set_type(element["type"]);
-    log.set_payload(element["payload"]);
-
-    return log;
+    SineWavePoint point;
+    point.set_time(element["time"]);
+    point.set_amplitude(element["amplitude"]);
+    point.set_frequency(element["frequency"]);
+    point.set_phase(element["phase"]);
+    point.set_value(element["value"]);
+    return point;
 }
 
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    // Register the DLT application and context
-    DLT_REGISTER_APP("ENCD", "Encoder Application");
-    DLT_REGISTER_CONTEXT(ctx, "ENC1", "Encoder Context");
-
-    ifstream f("../input.json"); 
+    ifstream f("../sinewavein.json"); 
     json data = json::parse(f);  
 
-    for (auto element : data)
+    for (const auto &element : data["points"])
     {
-        Log log = toProto(element);
+        SineWavePoint log = toProto(element);
         string encodedMessage;
         log.SerializeToString(&encodedMessage);
 
-        string serializedToHex = "start";
+        string serializedToHex;
         ostringstream hex_stream;
         for (unsigned char c : encodedMessage) {
             hex_stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c);
@@ -65,15 +67,10 @@ int main()
 
         serializedToHex += hex_stream.str();
 
+        write_dlt_log("logtest.dlt", serializedToHex);
+
         cout<<serializedToHex<<"\n";
-
-        // Log the encoded message to DLT
-        DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(serializedToHex.c_str()));
     }
-
-    // Unregister context and app
-    DLT_UNREGISTER_CONTEXT(ctx);
-    DLT_UNREGISTER_APP();
 
     return 0;
 }

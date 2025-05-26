@@ -21,7 +21,7 @@ find_path(DLT_INCLUDE_DIR dlt/dlt.h REQUIRED)
 include_directories(${DLT_INCLUDE_DIR})
 
 
-set(PROTO_FILE logger.proto)
+set(PROTO_FILE sine_wave.proto)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
 

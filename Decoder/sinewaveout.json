@@ -1,5 +1,9 @@
 [
     {
+        "amplitude": 1.0,
+        "frequency": 1.0
+    },
+    {
         "time": 0.25,
         "amplitude": 1.025,
         "frequency": 1.0,
@@ -63,7 +67,7 @@
         "time": 2.75,
         "amplitude": 1.275,
         "frequency": 1.0,
-        "value": -1.277
+        "value": -1.275
     },
     {
         "time": 3.0,
@@ -232,12 +236,6 @@
         "amplitude": 1.975,
         "frequency": 1.0,
         "value": -1.975
-    },
-    {
-        "time": 10.0,
-        "amplitude": 2.0,
-        "frequency": 1.0,
-        "value": -4.898587196589413e-15
     },
     {
         "time": 10.0,
