@@ -42,7 +42,7 @@ How to use the DLT Logger?
 $ git clone https://github.com/abhisiddanthi/dlt-filesystem
 
 # Access
-$ cd jsonviewer
+$ cd dlt-filesystem
 
 # Install dependencies
 $ npm install matplotlib
