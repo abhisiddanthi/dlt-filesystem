@@ -7,7 +7,7 @@ This JSON viewer is a simple GUI-based tool that allows users to load a JSON fil
 
 ## Code Explanation (Decoder) ##
 
-- The file <a href="./Decoder/dltsim.py">```dltsim.py```</a> is used to emulate a *.dlt* file since encoding right now only gives us a *.txt* file
+- The file <a href="./Decoder/dltsim.py">```dltsim.py```</a> is used to emulate a *.dlt* file since encoding right now only gives us a *.txt* file. (<a href="./Decoder/sinewave_output.txt">```sinewave_output.txt```</a>)
 
 - The file <a href="./Decoder/decoder.py">```decoder.py```</a> is used to decode the *.dlt* file that we obtain. (The dlt file here is <a href="./Decoder/sinewave.dlt">```sinewave.dlt```</a>)
 - The library <a href="https://pypi.org/project/pydlt/">pydlt</a> is used. 
