@@ -17,7 +17,7 @@ This is the <a href="./Decoder/sine_wave_pb2.py">```X_pb2.py```</a> file (The li
 Here we have put the proto data into a *.json* in <a href="./Decoder/sinewaveout.json>">```sinewaveout.json```</a> 
 
 ## Code Explanation (JSON Viewer) ##
-- The code to run for this is <a href="./jsonViewer/jsonviewer.py">```jsonviewer.py```</a>
+- The code to run for this is <a href="./JsonViewer/jsonviewer.py">```jsonviewer.py```</a>
 - The library <a href="https://pypi.org/project/PyQt6/">PyQt6</a> has been used to create the GUI
 - The GUI is simple to use. Just run the python program and we can upload a json file with numerical data in a predefined format similar to <a href="./Decoder/sinewave.json">```sinwave.json```</a> can be plotted on the GUI.
 - For plotting matplotlib has been integrated into the program as seen in the code
