@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message SineWavePoint {
+  double time = 1;        
+  double amplitude = 2;   
+  double frequency = 3;   
+  double phase = 4;       
+  double value = 5;       
+}
+

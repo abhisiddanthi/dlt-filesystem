@@ -8,8 +8,8 @@ from pydlt import (
 )
 
 # Initialize the DLT Writer
-with DltFileWriter("./DLTS/simlogs.dlt") as writer:
-    with open("../Encoder/output.txt", "r") as file:
+with DltFileWriter("./DLTS/sinewave.dlt") as writer:
+    with open("./sinewave_output.txt", "r") as file:
         for line in file:
             msg = DltMessage.create_verbose_message(
                 [ArgumentString(line)],
