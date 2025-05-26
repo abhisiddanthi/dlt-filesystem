@@ -31,7 +31,7 @@ Creating a dlt pipeline for an custom dlt format
 - Make the build for encoder before using (creates a function called encoder)
 - While using fstream with cmake need to mention file paths relative from the build folder
 
-How to use the DLT Logger? (Doesn't work right now)
+How to use the DLT Logger?
 - SET THE LD_LIBRARY_PATH: export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 - THEN RUN THE DLT-DAEMON: dlt-receive -o encoder_logs.dlt localhost
 
