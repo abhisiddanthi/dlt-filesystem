@@ -57,3 +57,13 @@ $ python3 jsonviewer.py
 
 <a href="#top">Back to top</a>
 
+
+sudo nano /etc/dlt.conf
+
+[General]
+LogFilePath=/path/to/your/output.dlt
+LogLevel=INFO
+
+dlt-receive -a localhost -p 3490 -o output.dlt
+
+ps aux | grep dlt-daemon

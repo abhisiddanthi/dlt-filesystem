@@ -1,40 +1,20 @@
 #include <iostream>
-#include <string>
-#include "./build/sine_wave.pb.h"
 #include <fstream>
 #include <sstream>
+#include <iomanip>
+#include <thread>
+#include <string>
 #include <nlohmann/json.hpp>
-
-#define DLT_HEADER_SIZE 12
+#include <dlt/dlt.h>
+#include "./build/sine_wave.pb.h"
 
 using json = nlohmann::json;
-
 using namespace std;
 
-void write_dlt_log(const string &filename, const string &message) {
-    ofstream file(filename, ios::binary | ios::app);
-    if (!file) {
-        cerr << "Error opening file!" << endl;
-        return;
-    }
+// Declare a global DLT context
+DLT_DECLARE_CONTEXT(ctx);
 
-    unsigned char header[DLT_HEADER_SIZE] = {0};
-    header[0] = 0x01;  
-    header[1] = 0x02;  
-    header[2] = (message.size() >> 8) & 0xFF;  
-    header[3] = message.size() & 0xFF;  
-
-    memcpy(header + 4, "ECU1", 4);
-
-    memcpy(header + 8, "\x00\x00\x00\x10", 4);
-
-    file.write(reinterpret_cast<char *>(header), DLT_HEADER_SIZE);
-    file.write(message.c_str(), message.size());
-
-    file.close();
-    cout << "Log written: " << message << endl;
-}
-
+// Convert a JSON element to a SineWavePoint protobuf message
 SineWavePoint toProto(const json &element)
 {
     SineWavePoint point;
@@ -46,37 +26,55 @@ SineWavePoint toProto(const json &element)
     return point;
 }
 
+// Convert binary string to hex string
+string toHex(const string &input)
+{
+    ostringstream oss;
+    for (unsigned char c : input)
+    {
+        oss << hex << setw(2) << setfill('0') << static_cast<int>(c);
+    }
+    return oss.str();
+}
+
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    ifstream f("../sinewavein.json"); 
-    json data = json::parse(f);  
+    DLT_REGISTER_APP("SWAV", "Sine Wave Encoder");
+    DLT_REGISTER_CONTEXT(ctx, "SWC1", "Sine Wave Context");
+    DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING("App started"));
+
+
+    ifstream f("../sinewavein.json");
+    if (!f.is_open())
+    {
+        cerr << "Failed to open json" << endl;
+        return 1;
+    }
+
+    json data = json::parse(f);
 
     for (const auto &element : data["points"])
     {
-        SineWavePoint log = toProto(element);
+        SineWavePoint point = toProto(element);
+
         string encodedMessage;
-        log.SerializeToString(&encodedMessage);
+        point.SerializeToString(&encodedMessage);
 
-        string serializedToHex;
-        ostringstream hex_stream;
-        for (unsigned char c : encodedMessage) {
-            hex_stream << hex << setw(2) << setfill('0') << static_cast<int>(c);
-        }
+        string hexString = "Z9dX7pQ3" + toHex(encodedMessage);
 
-        serializedToHex += hex_stream.str();
 
-        write_dlt_log("logtest.dlt", serializedToHex);
+        cout << hexString << endl;
 
-        cout<<serializedToHex<<"\n";
+        // Log the encoded message to DLT
+        DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(hexString.c_str()));
     }
+
+    this_thread::sleep_for(chrono::seconds(2));
+
+    DLT_UNREGISTER_CONTEXT(ctx);
+    DLT_UNREGISTER_APP();
 
     return 0;
 }
-
-
-
-
-
-
