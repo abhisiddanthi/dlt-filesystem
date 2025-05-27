@@ -1,43 +1,47 @@
 import sine_wave_pb2 as sin_wave
+import subprocess, csv, os
 import binascii
 import json
 from google.protobuf.json_format import MessageToDict
 
 data = []
 
-with open("logtest.dlt", "rb") as f:
-    while True:
-        header = f.read(12)  
-        if not header or len(header) < 4:
-            break
+dltpath = "../output.dlt"
 
-        header_type = header[0]
-        header_length = 12 if header_type & 0x01 else 4
+result = subprocess.run(['dlt-viewer', '-s', '-csv', '-c', dltpath, 'parsed.csv'])
 
-        if len(header) < header_length:
-            print("Skipping incomplete header.")
-            continue
+if result.returncode == 0:
+    print("success")
+    with open('parsed.csv', newline='') as file:
+        reader = csv.reader(file, delimiter=' ', quotechar='|')
 
-        payload_length = (header[2] << 8) | header[3]
+        for row in reader:
+            if row and row[-1].startswith("Z9dX7pQ3"):  
+                decoded_payload = row[-1][8:]
+                binary_data = binascii.unhexlify(decoded_payload)
 
-        payload = f.read(payload_length)
-        if len(payload) < payload_length:
-            print("Skipping incomplete payload.")
-            continue
+                try: 
+                    decoded_struct = sin_wave.SineWavePoint()
+                    decoded_struct.ParseFromString(binary_data)
 
-        decoded_payload = payload.decode('utf-8', errors='ignore')
-        binary_data = binascii.unhexlify(decoded_payload)
+                    jsonObject = MessageToDict(decoded_struct)
+                    data.append(jsonObject)
+                
+                except Exception as e:
+                    print(f"Skipping due to error: {e}")
+                
+    with open("sinewaveout.json", "w") as file:
+        json.dump(data, file, indent = 4)
 
-        decoded_struct = sin_wave.SineWavePoint()
-        decoded_struct.ParseFromString(binary_data)
+    if os.path.exists("parsed.csv"):
+        os.remove("parsed.csv")
+        print("Successfully removed temporary csv")
+    else:
+        print("File not found.")
 
-        #print(decoded_struct)
-
-        jsonObject = MessageToDict(decoded_struct)
-        data.append(jsonObject)
+else:
+    print("failure")
 
 
-with open("sinewaveout.json", "w") as file:
-    json.dump(data, file, indent = 4)
 
         
