@@ -18,7 +18,6 @@ DLT_DECLARE_CONTEXT(ctx);
 mutex dataMutex;
 bool running = true;
 
-
 struct SineWave {
     double amplitude;
     double frequency;
@@ -91,7 +90,7 @@ int main()
 
     thread sineThread(generateSineWave, wave, sampleRate);
 
-    this_thread::sleep_for(chrono::seconds(10));
+    this_thread::sleep_for(chrono::seconds(30));
 
     running = false;
     sineThread.join();

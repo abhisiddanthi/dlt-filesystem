@@ -58,6 +58,7 @@ $ python3 jsonviewer.py
 <a href="#top">Back to top</a>
 
 
+<!-- Notes for Author Use only -->
 sudo nano /etc/dlt.conf
 
 [General]
@@ -67,3 +68,5 @@ LogLevel=INFO
 dlt-receive -a localhost -p 3490 -o output.dlt
 
 ps aux | grep dlt-daemon
+
+strip --remove-section=.note.ABI-tag libQt6Core.so.6

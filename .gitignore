@@ -4,6 +4,7 @@ Encoder-MsgPack/build/
 Decoder-Proto/__pycache__
 Decoder-MsgPack/__pycache__
 DLTS/
-JsonViewer/venv
 Decoder-Proto/venv
 Decoder-MsgPack/venv
+JsonViewer-Proto/venv
+JsonViewer-Msgpack/venv
