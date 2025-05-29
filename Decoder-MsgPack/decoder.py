@@ -10,12 +10,12 @@ dltpath = "../output.dlt"
 result = subprocess.run(['dlt-viewer', '-s', '-csv', '-c', dltpath, 'parsed.csv'])
 
 if result.returncode == 0:
-    print("success")
+    print("Converting to CSV Success")
     with open('parsed.csv', newline='') as file:
         reader = csv.reader(file, delimiter=' ', quotechar='|')
 
         for row in reader:
-            print(row)
+            # print(row)
 
             try:
                 if row and row[-1].startswith("Z9dX7pQ3"):  
@@ -24,8 +24,8 @@ if result.returncode == 0:
 
                     try: 
                         unpacked_data = msgpack.unpackb(binary_data, raw=False)
-                        print(unpacked_data)
-                        data.append(unpacked_data)
+                        # print(unpacked_data)
+                        data.append([row[2], unpacked_data])
                     
                     except Exception as e:
                         print(f"Skipping due to error: {e}")
@@ -43,4 +43,4 @@ if result.returncode == 0:
         print("File not found.")
 
 else:
-    print("failure")
+    print("Failed to Convert to csv")

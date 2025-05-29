@@ -50,6 +50,7 @@ string toHex(string input) {
 
 //Thread to generate sinewave
 void generateSineWave(const SineWave& wave, int sampleRate) {
+    cout<<"working...\n ";
     int t = 0; 
     while (running) {
         double value = wave.amplitude * sin(2 * M_PI * wave.frequency * (t / static_cast<double>(sampleRate)) + wave.phase);
@@ -66,10 +67,10 @@ void generateSineWave(const SineWave& wave, int sampleRate) {
 
             DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(serializedToHex.c_str()));
 
-            cout<<serializedToHex<<"\n";
+            //cout<<serializedToHex<<"\n";
         }
 
-        cout << value << "\n";
+        //cout << value << "\n";
 
         this_thread::sleep_for(chrono::milliseconds(100)); 
         t++;
@@ -78,7 +79,7 @@ void generateSineWave(const SineWave& wave, int sampleRate) {
 
 
 int main()
-{
+{   
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     DLT_REGISTER_APP("SWAV", "Sine Wave Encoder");
@@ -97,6 +98,8 @@ int main()
 
     DLT_UNREGISTER_CONTEXT(ctx);
     DLT_UNREGISTER_APP();
+
+    cout<<"finished\n";
 
     return 0;
 }

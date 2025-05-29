@@ -8,6 +8,7 @@
 #include <mutex>
 #include <chrono>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -48,6 +49,7 @@ string toHex(string input) {
 
 //Thread to generate sinewave
 void generateSineWave(const SineWave& wave, int sampleRate) {
+    cout<<"woking..\n";
     int t = 0; 
     while (running) {
         double value = wave.amplitude * sin(2 * M_PI * wave.frequency * (t / static_cast<double>(sampleRate)) + wave.phase);
@@ -62,12 +64,12 @@ void generateSineWave(const SineWave& wave, int sampleRate) {
             string encodedMessage = string(buffer.data(), buffer.size());
             string serializedToHex = "Z9dX7pQ3" + toHex(encodedMessage);
 
-            cout<<serializedToHex<<"\n";
+            //cout<<serializedToHex<<"\n";
 
             DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(serializedToHex.c_str()));
         }
 
-        cout << value << "\n";
+        //cout << value << "\n";
 
         this_thread::sleep_for(chrono::milliseconds(100)); 
         t++;
@@ -81,6 +83,15 @@ int main()
     DLT_REGISTER_CONTEXT(ctx, "SWC1", "Sine Wave Context");
     DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING("App started"));
 
+    //To send field data to encoder
+    vector<string> fields = {"amplitude", "frequency", "phase", "value"};
+    msgpack::sbuffer fieldbuffer;
+    msgpack::pack(fieldbuffer, fields);
+    string fieldencodedMessage = string(fieldbuffer.data(), fieldbuffer.size());
+    string fieldserializedToHex = "Z9dX7pQ3" + toHex(fieldencodedMessage);
+
+    DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(fieldserializedToHex.c_str()));
+
     SineWave wave = {1.0, 1.0, 0.0};
     int sampleRate = 100; 
 
@@ -89,11 +100,12 @@ int main()
     this_thread::sleep_for(chrono::seconds(10));
 
     running = false;
-
-    this_thread::sleep_for(chrono::seconds(10));
+    sineThread.join();
 
     DLT_UNREGISTER_CONTEXT(ctx);
     DLT_UNREGISTER_APP();
+
+    cout<<"finished\n";
 
     return 0;
 }

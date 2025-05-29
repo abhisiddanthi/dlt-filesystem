@@ -11,12 +11,12 @@ dltpath = "../output.dlt"
 result = subprocess.run(['dlt-viewer', '-s', '-csv', '-c', dltpath, 'parsed.csv'])
 
 if result.returncode == 0:
-    print("success")
+    print("Converting to CSV Success")
     with open('parsed.csv', newline='') as file:
         reader = csv.reader(file, delimiter=' ', quotechar='|')
 
         for row in reader:
-            print(row)
+            # print(row)
             try:
                 if row and row[-1].startswith("Z9dX7pQ3"):  
                     decoded_payload = row[-1][8:]
@@ -27,11 +27,11 @@ if result.returncode == 0:
                         decoded_struct.ParseFromString(binary_data)
 
                         jsonObject = MessageToDict(decoded_struct)
-                        data.append(jsonObject)
+                        data.append([row[2], jsonObject])
                     
                     except Exception as e:
                         print(f"Skipping due to error: {e}")
-                        
+                  
             except Exception as e:
                 print(f"Incorrect data with pattern error: {e}")
                 
@@ -45,4 +45,4 @@ if result.returncode == 0:
         print("File not found.")
 
 else:
-    print("failure")
+    print("Failed to Convert to csv")

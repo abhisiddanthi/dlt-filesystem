@@ -1,596 +1,902 @@
 [
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.0
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.06279051952931337
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.12533323356430426
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.1873813145857246
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.2486898871648548
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.3090169943749474
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.3681245526846779
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.4257792915650727
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.4817536741017153
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.5358267949789967
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.5877852522924731
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.6374239897486896
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.6845471059286886
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.7289686274214116
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.7705132427757893
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.8090169943749475
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.8443279255020151
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.8763066800438637
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9048270524660196
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9297764858882513
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9510565162951535
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9685831611286311
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9822872507286886
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9921147013144779
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9980267284282716
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 1.0
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9980267284282716
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9921147013144778
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9822872507286886
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9685831611286312
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9510565162951536
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9297764858882513
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.9048270524660195
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.8763066800438635
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.844327925502015
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.8090169943749475
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.7705132427757893
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.7289686274214114
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.6845471059286888
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.6374239897486899
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.5877852522924732
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.535826794978997
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.4817536741017156
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.4257792915650729
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.36812455268467814
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.3090169943749475
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.24868988716485482
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.18738131458572502
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.12533323356430454
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 0.06279051952931358
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": 1.2246467991473532e-16
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.06279051952931335
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.12533323356430429
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.18738131458572477
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.24868988716485502
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.30901699437494773
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.3681245526846783
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.42577929156507227
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.481753674101715
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.5358267949789964
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.587785252292473
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.6374239897486896
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.6845471059286887
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.7289686274214113
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.7705132427757894
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.8090169943749473
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.8443279255020153
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.8763066800438636
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9048270524660198
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9297764858882511
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9510565162951535
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.968583161128631
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9822872507286887
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9921147013144778
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9980267284282716
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -1.0
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9980267284282716
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9921147013144779
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9822872507286887
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9685831611286311
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9510565162951536
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9297764858882512
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.9048270524660199
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.8763066800438638
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.8443279255020155
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.8090169943749476
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.7705132427757896
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.7289686274214116
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.684547105928689
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.6374239897486896
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.5877852522924734
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.5358267949789963
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.4817536741017153
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.4257792915650722
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.3681245526846787
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.3090169943749476
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.24868988716485535
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.18738131458572468
-    },
-    {
-        "amplitude": 1.0,
-        "frequency": 1.0,
-        "phase": 0.0,
-        "value": -0.12533323356430465
-    }
+    [
+        "14:41:22.432411",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.0
+        }
+    ],
+    [
+        "14:41:22.432980",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.06279051952931337
+        }
+    ],
+    [
+        "14:41:22.433520",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.12533323356430426
+        }
+    ],
+    [
+        "14:41:22.433879",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.1873813145857246
+        }
+    ],
+    [
+        "14:41:22.515848",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.2486898871648548
+        }
+    ],
+    [
+        "14:41:22.616715",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.3090169943749474
+        }
+    ],
+    [
+        "14:41:22.718315",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.3681245526846779
+        }
+    ],
+    [
+        "14:41:22.818196",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.4257792915650727
+        }
+    ],
+    [
+        "14:41:22.919333",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.4817536741017153
+        }
+    ],
+    [
+        "14:41:23.019573",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.5358267949789967
+        }
+    ],
+    [
+        "14:41:23.119936",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.5877852522924731
+        }
+    ],
+    [
+        "14:41:23.221384",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.6374239897486896
+        }
+    ],
+    [
+        "14:41:23.322593",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.6845471059286886
+        }
+    ],
+    [
+        "14:41:23.423170",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.7289686274214116
+        }
+    ],
+    [
+        "14:41:23.523600",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.7705132427757893
+        }
+    ],
+    [
+        "14:41:23.624079",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.8090169943749475
+        }
+    ],
+    [
+        "14:41:23.725041",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.8443279255020151
+        }
+    ],
+    [
+        "14:41:23.825731",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.8763066800438637
+        }
+    ],
+    [
+        "14:41:23.926247",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9048270524660196
+        }
+    ],
+    [
+        "14:41:24.026834",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9297764858882513
+        }
+    ],
+    [
+        "14:41:24.128218",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9510565162951535
+        }
+    ],
+    [
+        "14:41:24.228955",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9685831611286311
+        }
+    ],
+    [
+        "14:41:24.329138",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9822872507286886
+        }
+    ],
+    [
+        "14:41:24.430070",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9921147013144779
+        }
+    ],
+    [
+        "14:41:24.531174",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9980267284282716
+        }
+    ],
+    [
+        "14:41:24.632175",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 1.0
+        }
+    ],
+    [
+        "14:41:24.733203",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9980267284282716
+        }
+    ],
+    [
+        "14:41:24.833943",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9921147013144778
+        }
+    ],
+    [
+        "14:41:24.934739",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9822872507286886
+        }
+    ],
+    [
+        "14:41:25.035391",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9685831611286312
+        }
+    ],
+    [
+        "14:41:25.135780",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9510565162951536
+        }
+    ],
+    [
+        "14:41:25.236605",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9297764858882513
+        }
+    ],
+    [
+        "14:41:25.336829",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.9048270524660195
+        }
+    ],
+    [
+        "14:41:25.437368",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.8763066800438635
+        }
+    ],
+    [
+        "14:41:25.538234",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.844327925502015
+        }
+    ],
+    [
+        "14:41:25.638749",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.8090169943749475
+        }
+    ],
+    [
+        "14:41:25.739424",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.7705132427757893
+        }
+    ],
+    [
+        "14:41:25.839544",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.7289686274214114
+        }
+    ],
+    [
+        "14:41:25.939818",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.6845471059286888
+        }
+    ],
+    [
+        "14:41:26.040271",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.6374239897486899
+        }
+    ],
+    [
+        "14:41:26.140490",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.5877852522924732
+        }
+    ],
+    [
+        "14:41:26.240995",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.535826794978997
+        }
+    ],
+    [
+        "14:41:26.341677",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.4817536741017156
+        }
+    ],
+    [
+        "14:41:26.441826",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.4257792915650729
+        }
+    ],
+    [
+        "14:41:26.542204",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.36812455268467814
+        }
+    ],
+    [
+        "14:41:26.642854",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.3090169943749475
+        }
+    ],
+    [
+        "14:41:26.743024",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.24868988716485482
+        }
+    ],
+    [
+        "14:41:26.843784",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.18738131458572502
+        }
+    ],
+    [
+        "14:41:26.944268",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.12533323356430454
+        }
+    ],
+    [
+        "14:41:27.044772",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 0.06279051952931358
+        }
+    ],
+    [
+        "14:41:27.145110",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": 1.2246467991473532e-16
+        }
+    ],
+    [
+        "14:41:27.245444",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.06279051952931335
+        }
+    ],
+    [
+        "14:41:27.345660",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.12533323356430429
+        }
+    ],
+    [
+        "14:41:27.446263",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.18738131458572477
+        }
+    ],
+    [
+        "14:41:27.546953",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.24868988716485502
+        }
+    ],
+    [
+        "14:41:27.647115",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.30901699437494773
+        }
+    ],
+    [
+        "14:41:27.748102",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.3681245526846783
+        }
+    ],
+    [
+        "14:41:27.848635",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.42577929156507227
+        }
+    ],
+    [
+        "14:41:27.948880",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.481753674101715
+        }
+    ],
+    [
+        "14:41:28.048938",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.5358267949789964
+        }
+    ],
+    [
+        "14:41:28.149442",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.587785252292473
+        }
+    ],
+    [
+        "14:41:28.249510",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.6374239897486896
+        }
+    ],
+    [
+        "14:41:28.350075",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.6845471059286887
+        }
+    ],
+    [
+        "14:41:28.450690",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.7289686274214113
+        }
+    ],
+    [
+        "14:41:28.551239",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.7705132427757894
+        }
+    ],
+    [
+        "14:41:28.652154",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.8090169943749473
+        }
+    ],
+    [
+        "14:41:28.752419",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.8443279255020153
+        }
+    ],
+    [
+        "14:41:28.852979",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.8763066800438636
+        }
+    ],
+    [
+        "14:41:28.953509",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9048270524660198
+        }
+    ],
+    [
+        "14:41:29.057638",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9297764858882511
+        }
+    ],
+    [
+        "14:41:29.158308",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9510565162951535
+        }
+    ],
+    [
+        "14:41:29.258853",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.968583161128631
+        }
+    ],
+    [
+        "14:41:29.359169",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9822872507286887
+        }
+    ],
+    [
+        "14:41:29.459913",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9921147013144778
+        }
+    ],
+    [
+        "14:41:29.560473",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9980267284282716
+        }
+    ],
+    [
+        "14:41:29.660717",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -1.0
+        }
+    ],
+    [
+        "14:41:29.761302",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9980267284282716
+        }
+    ],
+    [
+        "14:41:29.861874",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9921147013144779
+        }
+    ],
+    [
+        "14:41:29.962881",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9822872507286887
+        }
+    ],
+    [
+        "14:41:30.063716",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9685831611286311
+        }
+    ],
+    [
+        "14:41:30.164574",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9510565162951536
+        }
+    ],
+    [
+        "14:41:30.265473",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9297764858882512
+        }
+    ],
+    [
+        "14:41:30.366036",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.9048270524660199
+        }
+    ],
+    [
+        "14:41:30.466338",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.8763066800438638
+        }
+    ],
+    [
+        "14:41:30.566552",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.8443279255020155
+        }
+    ],
+    [
+        "14:41:30.666860",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.8090169943749476
+        }
+    ],
+    [
+        "14:41:30.767531",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.7705132427757896
+        }
+    ],
+    [
+        "14:41:30.868486",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.7289686274214116
+        }
+    ],
+    [
+        "14:41:30.968764",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.684547105928689
+        }
+    ],
+    [
+        "14:41:31.069363",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.6374239897486896
+        }
+    ],
+    [
+        "14:41:31.169711",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.5877852522924734
+        }
+    ],
+    [
+        "14:41:31.473198",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.5358267949789963
+        }
+    ],
+    [
+        "14:41:31.473750",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.4817536741017153
+        }
+    ],
+    [
+        "14:41:31.474148",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.4257792915650722
+        }
+    ],
+    [
+        "14:41:31.572091",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.3681245526846787
+        }
+    ],
+    [
+        "14:41:31.673455",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.3090169943749476
+        }
+    ],
+    [
+        "14:41:31.773823",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.24868988716485535
+        }
+    ],
+    [
+        "14:41:31.874663",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.18738131458572468
+        }
+    ],
+    [
+        "14:41:31.975163",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.12533323356430465
+        }
+    ],
+    [
+        "14:41:32.075668",
+        {
+            "amplitude": 1.0,
+            "frequency": 1.0,
+            "phase": 0.0,
+            "value": -0.06279051952931326
+        }
+    ]
 ]
