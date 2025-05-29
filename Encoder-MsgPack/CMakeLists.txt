@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 11)
 
 include(FetchContent)
 
-FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
-FetchContent_MakeAvailable(json)
+# FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+# FetchContent_MakeAvailable(json)
 
 FetchContent_Declare(
     msgpack
@@ -25,5 +25,5 @@ include_directories(${msgpack_SOURCE_DIR}/include)
 
 add_executable(encoder encoder.cpp)
 
-target_link_libraries(encoder PRIVATE nlohmann_json::nlohmann_json)
+# target_link_libraries(encoder PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(encoder PRIVATE ${DLT_LIB} pthread)

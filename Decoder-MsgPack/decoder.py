@@ -16,17 +16,22 @@ if result.returncode == 0:
 
         for row in reader:
             print(row)
-            if row and row[-1].startswith("Z9dX7pQ3"):  
-                decoded_payload = row[-1][8:]
-                binary_data = binascii.unhexlify(decoded_payload)
 
-                try: 
-                    unpacked_data = msgpack.unpackb(binary_data, raw=False)
-                    print(unpacked_data)
-                    data.append(unpacked_data)
-                
-                except Exception as e:
-                    print(f"Skipping due to error: {e}")
+            try:
+                if row and row[-1].startswith("Z9dX7pQ3"):  
+                    decoded_payload = row[-1][8:]
+                    binary_data = binascii.unhexlify(decoded_payload)
+
+                    try: 
+                        unpacked_data = msgpack.unpackb(binary_data, raw=False)
+                        print(unpacked_data)
+                        data.append(unpacked_data)
+                    
+                    except Exception as e:
+                        print(f"Skipping due to error: {e}")
+
+            except Exception as e:
+                print(f"Incorrect data with pattern error: {e}")
                 
     with open("sinewaveout.json", "w") as file:
         json.dump(data, file, indent = 4)

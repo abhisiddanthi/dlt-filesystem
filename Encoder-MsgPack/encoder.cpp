@@ -3,14 +3,12 @@
 #include <iomanip>
 #include <thread>
 #include <string>
-#include <nlohmann/json.hpp>
 #include <dlt/dlt.h>
 #include <msgpack.hpp>
 #include <mutex>
 #include <chrono>
 #include <cmath>
 
-using json = nlohmann::json;
 using namespace std;
 
 // Declare a global DLT context
