@@ -8,6 +8,7 @@ class PlotterApp(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.data = []  
 
     def initUI(self):
         self.setWindowTitle("JSON Data Plotter")
@@ -48,7 +49,13 @@ class PlotterApp(QWidget):
 
         if file_path:
             with open(file_path, "r") as file:
-                self.data = json.load(file)
+                raw_data = json.load(file)
+                
+                if "points" in raw_data and isinstance(raw_data["points"], list):
+                    self.data = raw_data["points"]
+                else:
+                    self.fileLabel.setText("Invalid JSON format")
+                    return
 
             self.keys = list(self.data[0].keys())
             self.xAxisCombo.clear()
@@ -59,6 +66,10 @@ class PlotterApp(QWidget):
             self.fileLabel.setText(f"Loaded: {file_path.split('/')[-1]}")
 
     def plotData(self):
+        if not self.data:
+            self.fileLabel.setText("No data to plot")
+            return
+
         x_field = self.xAxisCombo.currentText()
         y_field = self.yAxisCombo.currentText()
 

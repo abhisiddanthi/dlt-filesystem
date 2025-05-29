@@ -1,8 +1,7 @@
-import sine_wave_pb2 as sin_wave
 import subprocess, csv, os
 import binascii
 import json
-from google.protobuf.json_format import MessageToDict
+import msgpack
 
 data = []
 
@@ -16,16 +15,15 @@ if result.returncode == 0:
         reader = csv.reader(file, delimiter=' ', quotechar='|')
 
         for row in reader:
+            print(row)
             if row and row[-1].startswith("Z9dX7pQ3"):  
                 decoded_payload = row[-1][8:]
                 binary_data = binascii.unhexlify(decoded_payload)
 
                 try: 
-                    decoded_struct = sin_wave.SineWavePoint()
-                    decoded_struct.ParseFromString(binary_data)
-
-                    jsonObject = MessageToDict(decoded_struct)
-                    data.append(jsonObject)
+                    unpacked_data = msgpack.unpackb(binary_data, raw=False)
+                    print(unpacked_data)
+                    data.append(unpacked_data)
                 
                 except Exception as e:
                     print(f"Skipping due to error: {e}")
@@ -41,7 +39,3 @@ if result.returncode == 0:
 
 else:
     print("failure")
-
-
-
-        

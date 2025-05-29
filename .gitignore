@@ -1,6 +1,9 @@
-Encoder/build/    
-dlt-daemon
+Encoder-Proto/build/    
+Encoder-MsgPack/build/    
 .vscode
-Decoder/__pycache__
-Decoder/DLTS
+Decoder-Proto/__pycache__
+Decoder-MsgPack/__pycache__
+DLTS/
 JsonViewer/venv
+Decoder-Proto/venv
+Decoder-MsgPack/venv

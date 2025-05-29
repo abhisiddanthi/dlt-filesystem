@@ -11,15 +11,16 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import wrappers_pb2 as google_dot_protobuf_dot_wrappers__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x08my.proto\"a\n\rSineWavePoint\x12\x0c\n\x04time\x18\x01 \x01(\x01\x12\x11\n\tamplitude\x18\x02 \x01(\x01\x12\x11\n\tfrequency\x18\x03 \x01(\x01\x12\r\n\x05phase\x18\x04 \x01(\x01\x12\r\n\x05value\x18\x05 \x01(\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x08my.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xcb\x01\n\rSineWavePoint\x12/\n\tamplitude\x18\x01 \x01(\x0b\x32\x1c.google.protobuf.DoubleValue\x12/\n\tfrequency\x18\x02 \x01(\x0b\x32\x1c.google.protobuf.DoubleValue\x12+\n\x05phase\x18\x03 \x01(\x0b\x32\x1c.google.protobuf.DoubleValue\x12+\n\x05value\x18\x04 \x01(\x0b\x32\x1c.google.protobuf.DoubleValueb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'my_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _SINEWAVEPOINT._serialized_start=12
-  _SINEWAVEPOINT._serialized_end=109
+  _SINEWAVEPOINT._serialized_start=45
+  _SINEWAVEPOINT._serialized_end=248
 # @@protoc_insertion_point(module_scope)
