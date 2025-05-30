@@ -6,15 +6,13 @@
 #include <sstream>
 #include "./build/sine_wave.pb.h"
 
-using namespace std;
-
 //Converting to hex
-string toHex(string input) {
-    string serializedToHex;
-    ostringstream hex_stream;
+std::string toHex(std::string input) {
+    std::string serializedToHex;
+    std::ostringstream hex_stream;
 
     for (unsigned char c : input) {
-        hex_stream << hex << setw(2) << setfill('0') << static_cast<int>(c);
+        hex_stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(c);
     }
 
     return hex_stream.str();
@@ -34,12 +32,12 @@ SineWavePoint toProto(const T& sinewave)
 
 //Serializing using MsgPack
 template <typename T>
-string SerializeToHex(const T& data) {
+std::string SerializeToHex(const T& data) {
 
     SineWavePoint point = toProto(data);
-    string encodedMessage;
+    std::string encodedMessage;
     point.SerializeToString(&encodedMessage);
-    string serializedToHex = "Z9dX7pQ3" + toHex(encodedMessage);
+    std::string serializedToHex = "Z9dX7pQ3" + toHex(encodedMessage);
 
     return serializedToHex; 
 }

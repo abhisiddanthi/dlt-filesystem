@@ -57,7 +57,6 @@ $ python3 jsonviewer.py
 
 <a href="#top">Back to top</a>
 
-
 <!-- Notes for Author Use only -->
 sudo nano /etc/dlt.conf
 
