@@ -35,7 +35,7 @@ struct Signal {
 
 //Thread to generate sinewave
 void generateSineWave(const SineWave& wave, int sampleRate) {
-    std::cout<<"woking..\n";
+    std::cout<<"working..\n";
     int t = 0; 
     while (running) {
         double value = wave.amplitude * sin(2 * M_PI * wave.frequency * (t / static_cast<double>(sampleRate)) + wave.phase);
