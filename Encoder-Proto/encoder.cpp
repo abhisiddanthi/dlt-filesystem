@@ -4,10 +4,10 @@
 #include <thread>
 #include <string>
 #include <dlt/dlt.h>
-#include "./build/sine_wave.pb.h"
 #include <mutex>
 #include <chrono>
 #include <cmath>
+#include "encoderProto.hpp"
 
 using namespace std;
 
@@ -24,32 +24,16 @@ struct SineWave {
     double phase;
 };
 
-// Convert to a SineWavePoint protobuf message
-SineWavePoint toProto(const SineWave& wave, double value)
-{
-    SineWavePoint point;
-    point.mutable_amplitude()->set_value(wave.amplitude);
-    point.mutable_frequency()->set_value(wave.frequency);    
-    point.mutable_phase()->set_value(wave.phase);
-    point.mutable_value()->set_value(value);
-    return point;
-}
-
-//Converting to hex
-string toHex(string input) {
-    string serializedToHex;
-    ostringstream hex_stream;
-
-    for (unsigned char c : input) {
-        hex_stream << hex << setw(2) << setfill('0') << static_cast<int>(c);
-    }
-
-    return hex_stream.str();
-}
+struct Signal {
+    double amplitudeLOG;
+    double frequencyLOG;
+    double phaseLOG;
+    double valueLOG;
+};
 
 //Thread to generate sinewave
 void generateSineWave(const SineWave& wave, int sampleRate) {
-    cout<<"working...\n ";
+    cout << " working..." << "\n ";
     int t = 0; 
     while (running) {
         double value = wave.amplitude * sin(2 * M_PI * wave.frequency * (t / static_cast<double>(sampleRate)) + wave.phase);
@@ -57,19 +41,12 @@ void generateSineWave(const SineWave& wave, int sampleRate) {
         {
             lock_guard<mutex> lock(dataMutex);
 
-            SineWavePoint point = toProto(wave, value);
+            Signal sinewave = {wave.amplitude, wave.frequency, wave.phase, value};
 
-            string encodedMessage;
-            point.SerializeToString(&encodedMessage);
-
-            string serializedToHex = "Z9dX7pQ3" + toHex(encodedMessage);
+            string serializedToHex = SerializeToHex(sinewave);
 
             DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(serializedToHex.c_str()));
-
-            //cout<<serializedToHex<<"\n";
         }
-
-        //cout << value << "\n";
 
         this_thread::sleep_for(chrono::milliseconds(100)); 
         t++;
@@ -98,7 +75,7 @@ int main()
     DLT_UNREGISTER_CONTEXT(ctx);
     DLT_UNREGISTER_APP();
 
-    cout<<"finished\n";
+    cout << "finished" << "\n";
 
     return 0;
 }
