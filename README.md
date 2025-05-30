@@ -8,7 +8,7 @@ This JSON viewer is a simple GUI-based tool that allows users to load a JSON fil
 ## Code Explanation (Encoder) ##
 The Encoder is responsible for serializing sine wave data and logging it into DLT (Diagnostic Log and Trace) for structured debugging and analysis. It calculates real-time sine wave values and converts them into a compact encoded format before logging them. Two versions of the encoder exist—one using MessagePack (MsgPack) and the other using Google Protocol Buffers (ProtoBuf).
 
-#  Encoder-MsgPack  #
+###  Encoder-MsgPack  ###
 - The file <a href="./Encoder-MsgPack/encoder.cpp">```encoder.cpp```</a> encodes sine wave data using MsgPack, a compact binary serialization format, and logs the output into DLT.
 - The header file <a href="./Encoder-MsgPack/encoderMsgPack.hpp">```encoderMsgPack.hpp```</a> contains template functions, making serialization flexible for different data types.
 - Key Functions in the Header:
@@ -25,7 +25,7 @@ The Encoder is responsible for serializing sine wave data and logging it into DL
 - Each computed sine wave value is stored in a Signal struct, then serialized using the SerializeToHex template function, converted to hex, and logged using DLT_LOG.
 
 
-#  Encoder-Proto  #
+###  Encoder-Proto  ###
 - The file <a href="./Encoder-Proto/encoder.cpp">```encoder.cpp```</a> encodes sine wave data using Google Protocol Buffers (ProtoBuf) and logs it into DLT.
 - The header file <a href="./Encoder-Proto/encoderProto.hpp">```encoderProto.hpp```</a> contains template functions for structured serialization, including:
 
