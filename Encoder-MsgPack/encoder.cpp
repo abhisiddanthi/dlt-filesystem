@@ -19,8 +19,8 @@ bool running = true;
 // Sinewave struct to encode
 struct SineWave {
     double amplitude;
-    double phase;
     double frequency;
+    double phase;
 };
 
 struct Signal {
@@ -38,7 +38,7 @@ void generateSineWave(const SineWave& wave, int sampleRate) {
     std::cout<<"working..\n";
     int t = 0; 
     while (running) {
-        double value = wave.amplitude * sin(2 * M_PI * wave.frequency * (t / static_cast<double>(sampleRate)) + wave.phase);
+        double value = wave.amplitude * sin(static_cast<double>(2 * M_PI * wave.frequency * (t / static_cast<double>(sampleRate)) + wave.phase));
 
         {
             std::lock_guard<std::mutex> lock(dataMutex);
