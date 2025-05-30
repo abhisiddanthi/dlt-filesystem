@@ -30,7 +30,7 @@ SineWavePoint toProto(const T& sinewave)
     return point;
 }
 
-//Serializing using MsgPack
+//Serializing using ProtoBuffer
 template <typename T>
 std::string SerializeToHex(const T& data) {
 
