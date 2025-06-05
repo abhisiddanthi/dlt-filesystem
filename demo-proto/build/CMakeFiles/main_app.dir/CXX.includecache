@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nkajoria/dlt-filesystem/demo-proto/main.cpp
+iostream
+-
+thread
+-
+mutex
+-
+cmath
+-
+google/protobuf/stubs/common.h
+-
+Encoder.hpp
+-
+Logger.hpp
+-
+

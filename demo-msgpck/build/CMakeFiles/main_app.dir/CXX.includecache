@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nkajoria/dlt-filesystem/demo-msgpck/main.cpp
+iostream
+-
+thread
+-
+mutex
+-
+cmath
+-
+vector
+-
+chrono
+-
+Encoder.hpp
+-
+Logger.hpp
+-
+
