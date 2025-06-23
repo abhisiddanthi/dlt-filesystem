@@ -1,0 +1,20 @@
+syntax = "proto3";
+package logger;
+//DO NOT CHANGE THE PACKAGE
+
+message carthing {
+  double reverseDistance = 1;
+  bool brake = 2;
+}
+
+message Something {
+  string something = 1;
+}
+
+message SineWavePoint {
+  double amplitude = 1;
+  double frequency = 2;
+  double phase = 3;
+  double value = 4;
+  double othertest = 5;
+}

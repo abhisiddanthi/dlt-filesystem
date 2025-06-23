@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 project(dlt-filesystem)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
+
+set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/ProtoLibrary/build/cmake")
+find_package(ProtoLibrary REQUIRED)
+# find_package(Protobuf REQUIRED)
+find_package(PkgConfig)
 
 # include(FetchContent)
-
-find_package(Protobuf REQUIRED)
-#find_package(PkgConfig)
-
-include_directories(${Protobuf_INCLUDE_DIRS})
-
 # FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
 # FetchContent_MakeAvailable(json)
+# target_link_libraries(encoder PRIVATE nlohmann_json::nlohmann_json)
 
 
 # Find DLT library manually
@@ -20,15 +20,14 @@ find_path(DLT_INCLUDE_DIR dlt/dlt.h REQUIRED)
 
 include_directories(${DLT_INCLUDE_DIR})
 
+# include_directories(${CMAKE_SOURCE_DIR}/ProtoLibrary/include)
+# link_directories(${CMAKE_SOURCE_DIR}/ProtoLibrary/build)
 
-set(PROTO_FILE sine_wave.proto)
+add_executable(encoder encoder.cpp)
 
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROTO_FILE})
+# target_link_libraries(encoder PRIVATE ${Protobuf_LIBRARIES} )
+target_link_libraries(encoder PRIVATE ProtoLibrary ${DLT_LIB})
 
-set(SOURCE_FILES encoder.cpp ${PROTO_SRCS})
 
-add_executable(encoder ${SOURCE_FILES})
-
-target_link_libraries(encoder PRIVATE ${Protobuf_LIBRARIES} pthread)
-# target_link_libraries(encoder PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(encoder PRIVATE ${DLT_LIB})
+find_package(ProtoLibrary REQUIRED)
+target_link_libraries(encoder PRIVATE ProtoLibrary)

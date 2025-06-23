@@ -3,17 +3,18 @@
 #include <string>
 #include <iomanip>
 #include <dlt/dlt.h>
-#include <mutex>
 #include <vector>
 #include <chrono>
 #include <cmath>
+
+
 #include "encoderMsgPack.hpp"
 
 // Declare a global DLT context
 DLT_DECLARE_CONTEXT(ctx);
+EncoderMsgPack::Encoder encoder;
 
 //Global Variables
-std::mutex dataMutex;
 bool running = true;
 
 // Sinewave struct to encode
@@ -29,8 +30,16 @@ struct Signal {
     double phaseLOG;
     double valueLOG;
 
-    MSGPACK_DEFINE(amplitudeLOG, frequencyLOG, phaseLOG, valueLOG)
+    MSGPACK_DEFINE(amplitudeLOG, frequencyLOG, phaseLOG, valueLOG) //Only for struct using msgpack
 };
+
+struct ReverseAssistSignals {
+    double reverseDistance;
+    bool brake;
+
+    MSGPACK_DEFINE(reverseDistance, brake) 
+}
+
 
 
 //Thread to generate sinewave
@@ -41,11 +50,11 @@ void generateSineWave(const SineWave& wave, int sampleRate) {
         double value = wave.amplitude * sin(static_cast<double>(2 * M_PI * wave.frequency * (t / static_cast<double>(sampleRate)) + wave.phase));
 
         {
-            std::lock_guard<std::mutex> lock(dataMutex);
-
             Signal sinewave = {wave.amplitude, wave.frequency, wave.phase, value};
 
-            std::string serializedToHex = SerializeToHex(sinewave);
+            std::string serializedToHex = encoder.SerializeToHex(sinewave);
+
+            std::cout << serializedToHex << "\n";
 
             DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(serializedToHex.c_str()));
         }
@@ -63,9 +72,9 @@ int main()
     DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING("App started"));
 
     //To send field data to encoder
-    std::vector<std::string> fields = {"amplitude", "frequency", "phase", "value"};
-
-    std::string fieldserializedToHex = SerializeToHex(fields);
+    
+    std::vector<std::string> fields = {"reverseDistance", "brake"};
+    std::string fieldserializedToHex = encoder.SerializeToHex(fields);
 
     DLT_LOG(ctx, DLT_LOG_INFO, DLT_STRING(fieldserializedToHex.c_str()));
 

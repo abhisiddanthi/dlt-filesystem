@@ -6,5 +6,10 @@ Decoder-MsgPack/__pycache__
 DLTS/
 Decoder-Proto/venv
 Decoder-MsgPack/venv
-JsonViewer-Proto/venv
-JsonViewer-MsgPack/venv
+Viewer-Proto/__pycache__
+Viewer-Proto/.venv
+Viewer-MsgPack/venv
+Encoder-MsgPack/MsgPackLibrary/build
+Encoder-Proto/ProtoLibrary/build
+Encoder-Proto/ProtoLibrary/README.md
+*.dlt
