@@ -117,7 +117,25 @@ def onDLTProcessed(self, dltpath, struct_dict):
             """)
 
             graph_type_combo = QComboBox()
-            graph_type_combo.addItems(messages.keys())
+            seen = set()
+            items = []
+            stack = [([], messages)]
+            while stack:
+                path, node = stack.pop()
+                if isinstance(node, dict):
+                    for key, val in node.items():
+                        if isinstance(val, (dict, list)):
+                            new_path = path + [key]
+                            label = " > ".join(new_path)
+                            if label not in seen:
+                                seen.add(label)
+                                items.append(label)
+                            stack.append((new_path, val))
+                elif isinstance(node, list):
+                    for elem in node:
+                        if isinstance(elem, dict):
+                            stack.append((path, elem))
+            graph_type_combo.addItems(items)
 
             add_graph_btn = QPushButton(f"Add Graph for {ctx_id}")
             add_graph_btn.clicked.connect(

@@ -22,55 +22,129 @@ def addGraph(self, identifiers, container, selected_key):
     dltpath, app_id, ctx_id = identifiers
 
     try:
-        if selected_key not in self.struct_dictionary[dltpath][app_id][ctx_id]:
-            raise ValueError(f'No data found for message name \"{selected_key}\" in the file.')
-        inner_data_list = self.struct_dictionary[dltpath][app_id][ctx_id][selected_key]
-        if not inner_data_list:
-            raise ValueError(f'No data entries found for message name \"{selected_key}\" in the file.')
-        available_fields = {k for k in inner_data_list[0] if k != "timestamp" and not k.startswith('@')}
+        keys = selected_key.split(" > ")
+        base = self.struct_dictionary[dltpath][app_id][ctx_id]
+
+        root_key = keys[0]
+        if root_key not in base or not isinstance(base[root_key], list):
+            raise ValueError(f'No list found for "{root_key}" in the data.')
+        root_list = [item for item in base[root_key] if isinstance(item, dict)]
+        if not root_list:
+            raise ValueError(f'No entries found under "{root_key}".')
+
+        pairs = [(item, item) for item in root_list]
+        for key in keys[1:]:
+            new_pairs = []
+            for root_item, curr in pairs:
+                if isinstance(curr, dict) and key in curr:
+                    val = curr[key]
+                    if isinstance(val, dict):
+                        new_pairs.append((root_item, val))
+                    elif isinstance(val, list):
+                        for elem in val:
+                            if isinstance(elem, dict):
+                                new_pairs.append((root_item, elem))
+                elif isinstance(curr, list):
+                    for elem in curr:
+                        if isinstance(elem, dict) and key in elem:
+                            val = elem[key]
+                            if isinstance(val, dict):
+                                new_pairs.append((root_item, val))
+                            elif isinstance(val, list):
+                                for sub in val:
+                                    if isinstance(sub, dict):
+                                        new_pairs.append((root_item, sub))
+            pairs = new_pairs
+
+        if not pairs:
+            raise ValueError(f'No data entries found at "{selected_key}".')
+
+        inner_data_list = [root_item for root_item, _ in pairs]
+
+        first_leaf = pairs[0][1]
+        available_fields = [
+            k for k, v in first_leaf.items()
+            if not isinstance(v, (dict, list))
+            and k != "timestamp"
+            and not k.startswith('@')
+        ]
+        if not available_fields:
+            raise ValueError(f'No plottable fields in "{selected_key}".')
+
         x_field = "timestamp"
-        y_field, ok_y = QInputDialog.getItem(self, "Select Data", f"Choose data field from {selected_key}:", list(available_fields), editable=False)
+        y_field, ok_y = QInputDialog.getItem(
+            self,
+            "Select Data",
+            f"Choose data field from {selected_key}:",
+            available_fields,
+            editable=False
+        )
         if not ok_y:
             return
+
         x_values, y_values = [], []
-        for item in inner_data_list:
+        for root_item, leaf_item in pairs:
             try:
-                x_val = try_parse_value(item.get(x_field))
-                y_val = try_parse_value(item.get(y_field))
+                x_val = try_parse_value(root_item.get(x_field))
+                y_val = try_parse_value(leaf_item.get(y_field))
                 if x_val is None or y_val is None:
                     continue
                 x_values.append(x_val)
                 y_values.append(y_val)
             except Exception:
                 continue
+
         if not x_values or not y_values:
             raise ValueError("Unable to extract valid numeric data for the selected fields.")
-        graph_mode, ok_mode = QInputDialog.getItem(self, "Graph Mode", "Would you like to create a new graph or add data to an existing graph?", ["New Graph", "Existing Graph"], editable=False)
+
+        graph_mode, ok_mode = QInputDialog.getItem(
+            self,
+            "Graph Mode",
+            "Would you like to create a new graph or add data to an existing graph?",
+            ["New Graph", "Existing Graph"],
+            editable=False
+        )
         if not ok_mode:
             return
-        x_values = np.array(x_values)
-        y_values = np.array(y_values)
+
+        x_arr = np.array(x_values)
+        y_arr = np.array(y_values)
         max_points = 10000
-        if len(x_values) > max_points:
-            indices = np.linspace(0, len(x_values) - 1, max_points).astype(int)
-            x_values = x_values[indices]
-            y_values = y_values[indices]
-        line = pg.PlotDataItem(x=x_values, y=y_values, pen=pg.mkPen(color='g', width=1), symbol='o', symbolSize=3, symbolPen=None, symbolBrush=pg.mkBrush(0, 0, 0, 255), name=y_field)
+        if len(x_arr) > max_points:
+            idx = np.linspace(0, len(x_arr) - 1, max_points).astype(int)
+            x_arr, y_arr = x_arr[idx], y_arr[idx]
+
+        line = pg.PlotDataItem(
+            x=x_arr, y=y_arr,
+            pen=pg.mkPen(color='g', width=1),
+            symbol='o', symbolSize=3,
+            symbolPen=None,
+            symbolBrush=pg.mkBrush(0, 0, 0, 255),
+            name=y_field
+        )
+
         if graph_mode == "New Graph":
-            default_name = f"{selected_key} {y_field}"
+            clean_key = selected_key.replace('>', '').strip()
+            default_name = f"{clean_key} {y_field}"
             while True:
                 graph_name = prompt_graph_name(self, default_name)
                 if not graph_name:
                     return
-                if (dltpath, app_id, ctx_id, graph_name) in self.graph_canvas_mapping:
-                    QMessageBox.warning(self, "Duplicate Graph Name", f"A graph named '{graph_name}' already exists for this DLT file. Please choose a different name.")
+                key = (dltpath, app_id, ctx_id, graph_name)
+                if key in self.graph_canvas_mapping:
+                    QMessageBox.warning(
+                        self, "Duplicate Graph Name",
+                        f"A graph named '{graph_name}' already exists for this DLT file. Please choose a different name."
+                    )
                     continue
                 break
+
             if isinstance(inner_data_list[0].get(x_field), str):
                 axis = DateAxisItem(orientation='bottom')
                 self.plot_widget = PlotWidget(axisItems={'bottom': axis})
             else:
                 self.plot_widget = PlotWidget()
+
             self.plot_widget.addLegend()
             self.plot_widget.addItem(line)
             self.plot_widget.getPlotItem().setLabel('bottom', x_field)
@@ -144,7 +218,8 @@ def addGraph(self, identifiers, container, selected_key):
             existing_graphs = [key for key in self.graph_canvas_mapping.keys() if key[0] == dltpath]
             if not existing_graphs:
                 QMessageBox.information(self, "No Existing Graph", "No existing graphs found for this file. Creating a new graph instead.")
-                default_name = f"{selected_key} {y_field}"
+                clean_key = selected_key.replace('>', '').strip()
+                default_name = f"{clean_key} {y_field}"
                 while True:
                     graph_name = prompt_graph_name(self, default_name)
                     if not graph_name:
