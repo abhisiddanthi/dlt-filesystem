@@ -1,15 +1,27 @@
+"""Graph creation and management utilities."""
 import numpy as np
 from datetime import datetime
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget, DateAxisItem
 from animate import PlotAnimator
-from PyQt6.QtWidgets import ( QMessageBox, QInputDialog, QStyle, QToolButton, QHBoxLayout, QWidget, QVBoxLayout, QListWidgetItem, QLabel, QSlider )
+from PyQt6.QtWidgets import (
+    QMessageBox, QInputDialog, QStyle, QToolButton, QHBoxLayout, QWidget,
+    QVBoxLayout, QListWidgetItem, QLabel, QSlider
+)
 from PyQt6.QtCore import Qt
 from utils import prompt_graph_name
-from datetime import datetime
-from dateutil.parser import parse as parse_dt  # pip install python-dateutil
+from dateutil.parser import parse as parse_dt
+
 
 def try_parse_value(value):
+    """Attempt to parse value into float or timestamp.
+    
+    Args:
+        value: Input value to parse
+        
+    Returns:
+        Parsed numeric value or None
+    """
     try:
         return float(value)
     except (ValueError, TypeError):
@@ -20,25 +32,36 @@ def try_parse_value(value):
         except Exception:
             return None
 
-def addGraph(self, identifiers, container, selected_key):
+
+def add_graph(self, identifiers, container, selected_key):
+    """Add a new graph to the UI.
+    
+    Args:
+        identifiers: (dltpath, app_id, ctx_id)
+        container: List widget container
+        selected_key: Data key to visualize
+    """
     dltpath, app_id, ctx_id = identifiers
 
     try:
-        # ── BEGIN REPLACEMENT ──
+        # Extract data based on selected key
         keys = selected_key.split(" > ")
         base = self.struct_dictionary[dltpath][app_id][ctx_id]
 
+        # Validate root key
         root_key = keys[0]
         if root_key not in base or not isinstance(base[root_key], list):
-            raise ValueError(f'No list found for "{root_key}" in the data.')
+            raise ValueError(f'No data found for "{root_key}"')
         root_list = [item for item in base[root_key] if isinstance(item, dict)]
         if not root_list:
-            raise ValueError(f'No entries found under "{root_key}".')
+            raise ValueError(f'No entries under "{root_key}"')
 
+        # Traverse nested structure
         pairs = [(item, item) for item in root_list]
         for key in keys[1:]:
             new_pairs = []
             for root_item, curr in pairs:
+                # Handle dictionaries
                 if isinstance(curr, dict) and key in curr:
                     val = curr[key]
                     if isinstance(val, dict):
@@ -47,6 +70,7 @@ def addGraph(self, identifiers, container, selected_key):
                         for elem in val:
                             if isinstance(elem, dict):
                                 new_pairs.append((root_item, elem))
+                # Handle lists
                 elif isinstance(curr, list):
                     for elem in curr:
                         if isinstance(elem, dict) and key in elem:
@@ -60,11 +84,12 @@ def addGraph(self, identifiers, container, selected_key):
             pairs = new_pairs
 
         if not pairs:
-            raise ValueError(f'No data entries found at "{selected_key}".')
+            raise ValueError(f'No data at "{selected_key}"')
 
         inner_data_list = [root_item for root_item, _ in pairs]
         first_leaf = pairs[0][1]
 
+        # Find plottable fields
         def is_number_list(x):
             return isinstance(x, list) and all(isinstance(e, (int, float, str)) for e in x)
 
@@ -76,8 +101,9 @@ def addGraph(self, identifiers, container, selected_key):
                 available_fields.append(k)
 
         if not available_fields:
-            raise ValueError(f'No plottable fields in "{selected_key}".')
+            raise ValueError(f'No plottable fields in "{selected_key}"')
 
+        # Prompt for Y-axis field
         x_field = "timestamp"
         y_field, ok_y = QInputDialog.getItem(
             self,
@@ -89,17 +115,16 @@ def addGraph(self, identifiers, container, selected_key):
         if not ok_y:
             return
 
+        # Extract data points
         x_values, y_values = [], []
-
         for root_item, leaf_item in pairs:
             raw_x = root_item.get(x_field)
             if raw_x is None:
                 continue
 
-            # ─── parse X ───
+            # Parse X value
             try:
                 if isinstance(raw_x, str):
-                    # parse and convert to float-seconds since epoch
                     dt = parse_dt(raw_x)
                     x_val = dt.timestamp()
                 else:
@@ -113,6 +138,7 @@ def addGraph(self, identifiers, container, selected_key):
             if raw_y is None:
                 continue
 
+            # Handle single values and lists
             def append_point(xv, y_elem):
                 try:
                     yv = try_parse_value(y_elem)
@@ -129,19 +155,20 @@ def addGraph(self, identifiers, container, selected_key):
                 append_point(x_val, raw_y)
 
         if not x_values or not y_values:
-            raise ValueError("Unable to extract valid numeric data for the selected fields.")
-        # ── END REPLACEMENT ──
+            raise ValueError("No valid numeric data extracted")
 
+        # Prompt for graph mode
         graph_mode, ok_mode = QInputDialog.getItem(
             self,
             "Graph Mode",
-            "Would you like to create a new graph or add data to an existing graph?",
+            "Create new graph or add to existing?",
             ["New Graph", "Existing Graph"],
             editable=False
         )
         if not ok_mode:
             return
         
+        # Downsample large datasets
         x_arr = np.array(x_values)
         y_arr = np.array(y_values)
         max_points = 10000
@@ -149,6 +176,7 @@ def addGraph(self, identifiers, container, selected_key):
             idx = np.linspace(0, len(x_arr) - 1, max_points).astype(int)
             x_arr, y_arr = x_arr[idx], y_arr[idx]
 
+        # Create plot item
         line = pg.PlotDataItem(
             x=x_arr, y=y_arr,
             pen=pg.mkPen(color='g', width=1),
@@ -159,6 +187,7 @@ def addGraph(self, identifiers, container, selected_key):
         )
 
         if graph_mode == "New Graph":
+            # Prompt for graph name
             clean_key = selected_key.replace('>', '').strip()
             default_name = f"{clean_key} {y_field}"
             while True:
@@ -168,68 +197,77 @@ def addGraph(self, identifiers, container, selected_key):
                 key = (dltpath, app_id, ctx_id, graph_name)
                 if key in self.graph_canvas_mapping:
                     QMessageBox.warning(
-                        self, "Duplicate Graph Name",
-                        f"A graph named '{graph_name}' already exists for this DLT file. Please choose a different name."
+                        self, "Duplicate Name",
+                        f"Graph '{graph_name}' already exists"
                     )
                     continue
                 break
 
+            # Create plot widget
             if isinstance(inner_data_list[0].get(x_field), str):
                 axis = DateAxisItem(orientation='bottom')
-                self.plot_widget = PlotWidget(axisItems={'bottom': axis})
+                plot_widget = PlotWidget(axisItems={'bottom': axis})
             else:
-                self.plot_widget = PlotWidget()
-
-            self.plot_widget.addLegend()
-            self.plot_widget.addItem(line)
-            self.plot_widget.getPlotItem().setLabel('bottom', x_field)
-            self.plot_widget.getPlotItem().setLabel('left', "Data")
-            self.plot_widget.getPlotItem().setTitle(graph_name)
-            self.plot_widget.showGrid(x=True, y=True)
-            self.plot_widget.setFixedHeight(300)
-            self.plot_widget.setBackground('white')
-            self.plot_widget.enableAutoRange(enable=True)
-            self.graph_canvas_mapping[(dltpath, app_id, ctx_id, graph_name)] = self.plot_widget
+                plot_widget = PlotWidget()
+                
+            plot_widget.addLegend()
+            plot_widget.addItem(line)
+            plot_widget.setLabel('bottom', x_field)
+            plot_widget.setLabel('left', "Data")
+            plot_widget.setTitle(graph_name)
+            plot_widget.showGrid(x=True, y=True)
+            plot_widget.setFixedHeight(300)
+            plot_widget.setBackground('white')
+            plot_widget.enableAutoRange(enable=True)
+            
+            # Store references
+            self.graph_canvas_mapping[key] = plot_widget
             if not hasattr(self, 'animators'):
                 self.animators = {}
-            self.animators[(dltpath, app_id, ctx_id, graph_name)] = []
-            animator = PlotAnimator(self.plot_widget, x_values, y_values)
-            self.animators[(dltpath, app_id, ctx_id, graph_name)].append(animator)
-            btn_play = QToolButton()
-            icon_play = self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay)
-            btn_play.setIcon(icon_play)
-            btn_play.setAutoRaise(True)
-            btn_play.setToolTip("Play Graph")
-            btn_play.setFixedSize(16, 16)
-            btn_play.clicked.connect(lambda: [a.play() for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
-            btn_pause = QToolButton()
-            icon_pause = self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause)
-            btn_pause.setIcon(icon_pause)
-            btn_pause.setAutoRaise(True)
-            btn_pause.setToolTip("Pause Graph")
-            btn_pause.setFixedSize(16, 16)
-            btn_pause.clicked.connect(lambda: [a.pause() for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
-            btn_reset = QToolButton()
-            icon_reset = self.style().standardIcon(QStyle.StandardPixmap.SP_BrowserReload)
-            btn_reset.setIcon(icon_reset)
-            btn_reset.setAutoRaise(True)
-            btn_reset.setToolTip("Reset Play Graph")
-            btn_reset.setFixedSize(16, 16)
-            btn_reset.clicked.connect(lambda: [a.reset() for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
+            self.animators[key] = []
+            
+            # Create animator
+            animator = PlotAnimator(plot_widget, x_values, y_values)
+            self.animators[key].append(animator)
+            
+            # Create control buttons
+            btn_play = self._create_tool_button(
+                QStyle.StandardPixmap.SP_MediaPlay,
+                "Play Graph",
+                lambda: [a.play() for a in self.animators[key]]
+            )
+            btn_pause = self._create_tool_button(
+                QStyle.StandardPixmap.SP_MediaPause,
+                "Pause Graph",
+                lambda: [a.pause() for a in self.animators[key]]
+            )
+            btn_reset = self._create_tool_button(
+                QStyle.StandardPixmap.SP_BrowserReload,
+                "Reset Graph",
+                lambda: [a.reset() for a in self.animators[key]]
+            )
+            
+            # Create speed slider
             lbl_speed = QLabel("Speed:")
             slider = QSlider(Qt.Orientation.Horizontal)
             slider.setRange(10, 200)
             slider.setValue(animator.speed)
             slider.setTickPosition(QSlider.TickPosition.TicksBelow)
             slider.setTickInterval(10)
-            slider.valueChanged.connect(lambda val: [a.setSpeed(val) for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
-            delete_graph_btn = QToolButton()
-            icon = self.style().standardIcon(QStyle.StandardPixmap.SP_TitleBarCloseButton)
-            delete_graph_btn.setIcon(icon)
-            delete_graph_btn.setAutoRaise(True)
-            delete_graph_btn.setToolTip("Delete Graph")
-            delete_graph_btn.setFixedSize(16, 16)
-            delete_graph_btn.clicked.connect(lambda _, dp=dltpath, aid=app_id, cid=ctx_id, gn=graph_name, gc=container, btn=delete_graph_btn: (btn.deleteLater(), self.deleteSelectedGraph((dp, aid, cid), gn, gc)))
+            slider.valueChanged.connect(
+                lambda val: [a.set_speed(val) for a in self.animators[key]]
+            )
+            
+            # Create delete button
+            delete_btn = self._create_tool_button(
+                QStyle.StandardPixmap.SP_TitleBarCloseButton,
+                "Delete Graph",
+                lambda: self._delete_graph(
+                    dltpath, app_id, ctx_id, graph_name, container
+                )
+            )
+            
+            # Assemble header
             header_widget = QWidget()
             header = QHBoxLayout(header_widget)
             header.setContentsMargins(15, 0, 15, 0)
@@ -239,149 +277,103 @@ def addGraph(self, identifiers, container, selected_key):
             header.addWidget(btn_reset)
             header.addWidget(lbl_speed)
             header.addWidget(slider)
-            header.addWidget(delete_graph_btn)
+            header.addWidget(delete_btn)
+            
+            # Create container widget
             item_widget = QWidget()
             item_layout = QVBoxLayout(item_widget)
             item_layout.setContentsMargins(15, 0, 15, 0)
             item_layout.addWidget(header_widget)
-            item_layout.addWidget(self.plot_widget)
+            item_layout.addWidget(plot_widget)
+            
+            # Add to list
             item = QListWidgetItem()
             item.setSizeHint(item_widget.sizeHint())
             container.addItem(item)
             container.setItemWidget(item, item_widget)
-        else:
-            existing_graphs = [key for key in self.graph_canvas_mapping.keys() if key[0] == dltpath]
+            
+        else:  # Add to existing graph
+            existing_graphs = [
+                key for key in self.graph_canvas_mapping.keys() 
+                if key[0] == dltpath
+            ]
             if not existing_graphs:
-                QMessageBox.information(self, "No Existing Graph", "No existing graphs found for this file. Creating a new graph instead.")
-                clean_key = selected_key.replace('>', '').strip()
-                default_name = f"{clean_key} {y_field}"
-                while True:
-                    graph_name = prompt_graph_name(self, default_name)
-                    if not graph_name:
-                        return
-                    if (dltpath, app_id, ctx_id, graph_name) in self.graph_canvas_mapping:
-                        QMessageBox.warning(self, "Duplicate Graph Name", f"A graph named '{graph_name}' already exists for this DLT file. Please choose a different name.")
-                        continue
-                    break
-                if isinstance(inner_data_list[0].get(x_field), str):
-                    axis = DateAxisItem(orientation='bottom')
-                    self.plot_widget = PlotWidget(axisItems={'bottom': axis})
-                else:
-                    self.plot_widget = PlotWidget()
-                self.plot_widget.addLegend()
-                self.plot_widget.addItem(line)
-                self.plot_widget.getPlotItem().setLabel('bottom', x_field)
-                self.plot_widget.getPlotItem().setLabel('left', "Data")
-                self.plot_widget.getPlotItem().setTitle(graph_name)
-                self.plot_widget.showGrid(x=True, y=True)
-                self.plot_widget.setFixedHeight(300)
-                self.plot_widget.setBackground('white')
-                self.plot_widget.enableAutoRange(enable=True)
-                self.graph_canvas_mapping[(dltpath, app_id, ctx_id, graph_name)] = self.plot_widget
-                if not hasattr(self, 'animators'):
-                    self.animators = {}
-                self.animators[(dltpath, app_id, ctx_id, graph_name)] = []
-                animator = PlotAnimator(self.plot_widget, x_values, y_values)
-                self.animators[(dltpath, app_id, ctx_id, graph_name)].append(animator)
-                btn_play = QToolButton()
-                icon_play = self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPlay)
-                btn_play.setIcon(icon_play)
-                btn_play.setAutoRaise(True)
-                btn_play.setToolTip("Play Graph")
-                btn_play.setFixedSize(16, 16)
-                btn_play.clicked.connect(lambda: [a.play() for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
-                btn_pause = QToolButton()
-                icon_pause = self.style().standardIcon(QStyle.StandardPixmap.SP_MediaPause)
-                btn_pause.setIcon(icon_pause)
-                btn_pause.setAutoRaise(True)
-                btn_pause.setToolTip("Pause Graph")
-                btn_pause.setFixedSize(16, 16)
-                btn_pause.clicked.connect(lambda: [a.pause() for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
-                btn_reset = QToolButton()
-                icon_reset = self.style().standardIcon(QStyle.StandardPixmap.SP_BrowserReload)
-                btn_reset.setIcon(icon_reset)
-                btn_reset.setAutoRaise(True)
-                btn_reset.setToolTip("Reset Play Graph")
-                btn_reset.setFixedSize(16, 16)
-                btn_reset.clicked.connect(lambda: [a.reset() for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
-                lbl_speed = QLabel("Speed:")
-                slider = QSlider(Qt.Orientation.Horizontal)
-                slider.setRange(10, 200)
-                slider.setValue(animator.speed)
-                slider.setTickPosition(QSlider.TickPosition.TicksBelow)
-                slider.setTickInterval(10)
-                slider.valueChanged.connect(lambda val: [a.setSpeed(val) for a in self.animators[(dltpath, app_id, ctx_id, graph_name)]])
-                delete_graph_btn = QToolButton()
-                icon = self.style().standardIcon(QStyle.StandardPixmap.SP_TitleBarCloseButton)
-                delete_graph_btn.setIcon(icon)
-                delete_graph_btn.setAutoRaise(True)
-                delete_graph_btn.setToolTip("Delete Graph")
-                delete_graph_btn.setFixedSize(16, 16)
-                delete_graph_btn.clicked.connect(lambda _, dp=dltpath, aid=app_id, cid=ctx_id, gn=graph_name, gc=container, btn=delete_graph_btn: (btn.deleteLater(), self.deleteSelectedGraph((dp, aid, cid), gn, gc)))
-                header_widget = QWidget()
-                header = QHBoxLayout(header_widget)
-                header.setContentsMargins(15, 0, 15, 0)
-                header.addStretch()
-                header.addWidget(btn_play)
-                header.addWidget(btn_pause)
-                header.addWidget(btn_reset)
-                header.addWidget(lbl_speed)
-                header.addWidget(slider)
-                header.addWidget(delete_graph_btn)
-                item_widget = QWidget()
-                item_layout = QVBoxLayout(item_widget)
-                item_layout.setContentsMargins(15, 0, 15, 0)
-                item_layout.addWidget(header_widget)
-                item_layout.addWidget(self.plot_widget)
-                item = QListWidgetItem()
-                item.setSizeHint(item_widget.sizeHint())
-                container.addItem(item)
-                container.setItemWidget(item, item_widget)
-                return
-            existing_graph_names = [key[3] for key in existing_graphs]
-            selected_graph_name, ok_sel = QInputDialog.getItem(self, "Select Existing Graph", "Select an existing graph to add data:", existing_graph_names, editable=False)
+                QMessageBox.information(
+                    self, "No Graphs", 
+                    "No existing graphs found. Creating new graph"
+                )
+                # Recursively create new graph
+                return add_graph(self, identifiers, container, selected_key)
+                
+            # Select existing graph
+            existing_names = [key[3] for key in existing_graphs]
+            selected_name, ok_sel = QInputDialog.getItem(
+                self, "Select Graph", "Choose graph:", existing_names, editable=False
+            )
             if not ok_sel:
                 return
-            selected_graph_key = next((key for key in existing_graphs if key[3] == selected_graph_name), None)
-            if selected_graph_key is None:
-                raise ValueError("Selected graph not found.")
-            self.plot_widget = self.graph_canvas_mapping[selected_graph_key]
-            if not self.plot_widget.getPlotItem().legend:
-                self.plot_widget.addLegend()
-            self.plot_widget.addItem(line)
+                
+            # Find selected graph
+            selected_key = next(
+                (k for k in existing_graphs if k[3] == selected_name), None
+            )
+            if not selected_key:
+                raise ValueError("Selected graph not found")
+                
+            # Add to existing plot
+            plot_widget = self.graph_canvas_mapping[selected_key]
+            if not plot_widget.getPlotItem().legend:
+                plot_widget.addLegend()
+            plot_widget.addItem(line)
+            
+            # Create animator
             if not hasattr(self, 'animators'):
                 self.animators = {}
-            if selected_graph_key not in self.animators:
-                self.animators[selected_graph_key] = []
-            animator = PlotAnimator(self.plot_widget, x_values, y_values)
-            self.animators[selected_graph_key].append(animator)
+            if selected_key not in self.animators:
+                self.animators[selected_key] = []
+                
+            animator = PlotAnimator(plot_widget, x_values, y_values)
+            self.animators[selected_key].append(animator)
+            
     except Exception as e:
-        QMessageBox.critical(self, "Error", f"Failed to add graph:\n{e}")
+        QMessageBox.critical(self, "Graph Error", f"Failed to add graph:\n{e}")
 
-def deleteSelectedGraph(self, identifiers, graph_name, container):
+
+def delete_selected_graph(self, identifiers, graph_name, container):
+    """Remove graph from UI and internal mappings.
+    
+    Args:
+        identifiers: (dltpath, app_id, ctx_id)
+        graph_name: Name of graph to delete
+        container: List widget container
+    """
     dltpath, app_id, ctx_id = identifiers
-    canvas = self.graph_canvas_mapping.pop(
-        (dltpath, app_id, ctx_id, graph_name), 
-        None
-    )
+    key = (dltpath, app_id, ctx_id, graph_name)
+    
+    # Remove from mappings
+    canvas = self.graph_canvas_mapping.pop(key, None)
     if not canvas:
         return
+        
+    # Remove from animators
+    if hasattr(self, 'animators') and key in self.animators:
+        del self.animators[key]
+    
+    # Remove from UI
     for row in range(container.count()):
-        item      = container.item(row)
-        item_wdg  = container.itemWidget(item)
-        if not item_wdg:
+        item = container.item(row)
+        item_widget = container.itemWidget(item)
+        if not item_widget:
             continue
-        graph_child = None
-        layout      = item_wdg.layout()
+            
+        # Find matching canvas
+        layout = item_widget.layout()
         if layout and layout.count() > 1:
             graph_child = layout.itemAt(1).widget()
-        if graph_child is canvas:
-            removed_item = container.takeItem(row)
-            item_wdg.setParent(None)
-            item_wdg.deleteLater()
-            del removed_item
-            break
+            if graph_child is canvas:
+                container.takeItem(row)
+                item_widget.deleteLater()
+                break
 
-    canvas.setParent(None)
+    # Clean up
     canvas.deleteLater()
-

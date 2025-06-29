@@ -1,3 +1,4 @@
+"""Background worker for processing DLT files."""
 import os
 import csv
 import sys
@@ -8,17 +9,34 @@ from google.protobuf.json_format import MessageToDict
 from google.protobuf import symbol_database
 from PyQt6.QtCore import QThread, pyqtSignal
 
-class DLTWorker(QThread):
-    finished = pyqtSignal(str, dict)
-    error = pyqtSignal(str)
 
-    def __init__(self, dltpath, module_name):
+class DLTWorker(QThread):
+    """Worker thread for converting DLT files to structured data."""
+    finished = pyqtSignal(str, dict)  # (dltpath, parsed_data)
+    error = pyqtSignal(str)  # error_message
+
+    def __init__(self, dlt_path, module_name):
+        """
+        Initialize DLT worker.
+        
+        Args:
+            dlt_path: Path to DLT file
+            module_name: Protobuf module name
+        """
         super().__init__()
-        self.dltpath = dltpath
+        self.dlt_path = dlt_path
         self.module_name = module_name
         self.reported_missing_types = set()
 
-    def createMessageByType(self, type_name: str):
+    def create_message_by_type(self, type_name: str):
+        """Create protobuf message instance by type name.
+        
+        Args:
+            type_name: Protobuf message type name
+            
+        Returns:
+            Protobuf message instance or None
+        """
         if '.' not in type_name:
             type_name = "logger." + type_name
         try:
@@ -29,100 +47,127 @@ class DLTWorker(QThread):
             if type_name not in self.reported_missing_types:
                 self.reported_missing_types.add(type_name)
                 display_name = type_name.replace("logger.", "")
-                self.error.emit(f"Message type \"{display_name}\" not found. \n Please check whether if correct \".proto\" uploaded")
+                self.error.emit(
+                    f"Message type \"{display_name}\" not found.\n"
+                    "Please check if correct \".proto\" file is uploaded"
+                )
             return None
+
+    @staticmethod
+    def parse_dlt_line(line):
+        """Parse DLT log line into components.
+        
+        Args:
+            line: Raw log line
             
-    def parse_dlt_line(self, line):
+        Returns:
+            Parsed components dictionary or None
+        """
         if isinstance(line, list) and all(isinstance(item, str) for item in line):
             line = ' '.join(line)
 
-        if isinstance(line, str):
-            parts = line.split()
-        else:
+        if not isinstance(line, str):
             return None
 
-        if len(parts) >= 14:
-            appid = parts[5]
-            cntxid = parts[6]
-            payload = ' '.join(parts[13:])
-            return {
-                'APPID': appid,
-                'CNTXID': cntxid,
-                'Payload': payload
-            }
+        parts = line.split()
+        if len(parts) < 14:
+            return None
 
-        return None
+        app_id = parts[5]
+        ctx_id = parts[6]
+        payload = ' '.join(parts[13:])
+        return {
+            'APPID': app_id,
+            'CNTXID': ctx_id,
+            'Payload': payload
+        }
 
     def run(self):
+        """Main processing logic executed in worker thread."""
         try:
+            # Ensure temp directory is in Python path
             if APP_TEMP_DIR not in sys.path:
                 sys.path.insert(0, APP_TEMP_DIR)
+            
+            # Import protobuf module
             importlib.import_module(self.module_name)
             struct_dict = {}
-
-            csvname =  os.path.basename(self.dltpath)[:-4] + '.csv'
-            csvpath = f'{APP_TEMP_DIR}/{csvname}'
-
-            result = run_command(['dlt-viewer', '-v', '-s', '-csv', '-c', self.dltpath, csvpath])
-
+            
+            # Prepare CSV path
+            csv_name = os.path.basename(self.dlt_path)[:-4] + '.csv'
+            csv_path = f'{APP_TEMP_DIR}/{csv_name}'
+            
+            # Convert DLT to CSV
+            result = run_command(['dlt-viewer', '-v', '-s', '-csv', '-c', self.dlt_path, csv_path])
             if result.returncode != 0:
-                self.error.emit("Failed to convert to CSV")
+                self.error.emit("Failed to convert DLT to CSV")
                 return
 
-            with open(csvpath, newline='', encoding='utf-8') as file:
+            # Process CSV file
+            with open(csv_path, newline='', encoding='utf-8') as file:
+                # Detect CSV dialect
                 sample = file.read(1024)
                 file.seek(0)
-
-                sniffer = csv.Sniffer()
                 try:
-                    dialect = sniffer.sniff(sample)
+                    dialect = csv.Sniffer().sniff(sample)
                 except csv.Error:
                     dialect = csv.get_dialect('excel')
-
+                
                 reader = csv.reader(file, dialect)
                 for row in reader:
                     try:
-                        payload = self.parse_dlt_line(row)['Payload']
-                        appid = self.parse_dlt_line(row)['APPID']
-                        cntxid = self.parse_dlt_line(row)['CNTXID']
-
-                        if appid not in struct_dict:
-                            struct_dict[appid] = {}
-
-                        if cntxid not in struct_dict[appid]:
-                            struct_dict[appid][cntxid] = {}
-
-                        if row and payload.startswith("$%.&") and "&*.%" in payload:
+                        parsed = self.parse_dlt_line(row)
+                        if not parsed:
+                            continue
+                            
+                        payload = parsed['Payload']
+                        app_id = parsed['APPID']
+                        ctx_id = parsed['CNTXID']
+                        
+                        # Initialize data structure
+                        if app_id not in struct_dict:
+                            struct_dict[app_id] = {}
+                        if ctx_id not in struct_dict[app_id]:
+                            struct_dict[app_id][ctx_id] = {}
+                        
+                        # Process protobuf payload
+                        if payload.startswith("$%.&") and "&*.%" in payload:
                             remainder = payload[4:]
                             sep_index = remainder.find("&*.%")
-                            messageName = remainder[:sep_index]
+                            message_name = remainder[:sep_index]
                             decoded_payload = remainder[sep_index + len("&*.%"):]
-                                
-                            if messageName not in struct_dict[appid][cntxid]:
-                                struct_dict[appid][cntxid][messageName] = []
-
+                            
+                            # Initialize message list
+                            if message_name not in struct_dict[app_id][ctx_id]:
+                                struct_dict[app_id][ctx_id][message_name] = []
+                            
+                            # Decode binary data
                             binary_data = binascii.unhexlify(decoded_payload)
-                            decoded_struct = self.createMessageByType(messageName)
-
-                            if decoded_struct is None:
+                            decoded_struct = self.create_message_by_type(message_name)
+                            if not decoded_struct:
                                 continue
-
+                            
+                            # Parse protobuf and convert to dict
                             decoded_struct.ParseFromString(binary_data)
-                            jsonObject = MessageToDict(decoded_struct, including_default_value_fields=True)
-
-                            struct_dict[appid][cntxid][messageName].append({
+                            json_obj = MessageToDict(
+                                decoded_struct, 
+                                including_default_value_fields=True
+                            )
+                            
+                            # Store parsed data
+                            struct_dict[app_id][ctx_id][message_name].append({
                                 "timestamp": row[2],
-                                **jsonObject
+                                **json_obj
                             })
-
                     except Exception as e:
-                        print(f"[DLTWorker] Skipping row due to error: {e}")
+                        print(f"[DLTWorker] Skipping row: {e}")
                         continue
 
-            if os.path.exists(csvpath):
-                os.remove(csvpath)
+            # Clean up temporary file
+            if os.path.exists(csv_path):
+                os.remove(csv_path)
 
-            self.finished.emit(self.dltpath, struct_dict)
+            self.finished.emit(self.dlt_path, struct_dict)
 
         except Exception as e:
-            self.error.emit(str(e))
+            self.error.emit(f"DLT processing failed: {str(e)}")
