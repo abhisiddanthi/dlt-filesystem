@@ -92,11 +92,11 @@ class DLTWorker(QThread):
                         if cntxid not in struct_dict[appid]:
                             struct_dict[appid][cntxid] = {}
 
-                        if row and payload.startswith("ZXd6") and "7pQ3" in payload:
+                        if row and payload.startswith("$%.&") and "&*.%" in payload:
                             remainder = payload[4:]
-                            sep_index = remainder.find("7pQ3")
+                            sep_index = remainder.find("&*.%")
                             messageName = remainder[:sep_index]
-                            decoded_payload = remainder[sep_index + len("7pQ3"):]
+                            decoded_payload = remainder[sep_index + len("&*.%"):]
                                 
                             if messageName not in struct_dict[appid][cntxid]:
                                 struct_dict[appid][cntxid][messageName] = []

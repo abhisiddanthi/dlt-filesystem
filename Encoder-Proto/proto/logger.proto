@@ -2,13 +2,121 @@ syntax = "proto3";
 package logger;
 //DO NOT CHANGE THE PACKAGE
 
-message carthing {
-  double reverseDistance = 1;
-  bool brake = 2;
+message NumberInt32 {
+  int32  number32 = 1;
 }
+message RepeatedNumberInt32 {
+  repeated int32 numbers32 = 1;
+}
+
+message NumberInt64 {
+  int64  number64 = 1;
+}
+message RepeatedNumberInt64 {
+  repeated int64 numbers64 = 1;
+}
+
+message NumberUInt32 {
+  uint32 number32 = 1;
+}
+message RepeatedNumberUInt32 {
+  repeated uint32 numbers32 = 1;
+}
+
+message NumberUInt64 {
+  uint64 number64 = 1;
+}
+message RepeatedNumberUInt64 {
+  repeated uint64 numbers64 = 1;
+}
+
+message NumberSInt32 {
+  sint32 number32 = 1;
+}
+message RepeatedNumberSInt32 {
+  repeated sint32 numbers32 = 1;
+}
+
+message NumberSInt64 {
+  sint64 number64 = 1;
+}
+message RepeatedNumberSInt64 {
+  repeated sint64 numbers64 = 1;
+}
+
+message NumberFixed32 {
+  fixed32 number32 = 1;
+}
+message RepeatedNumberFixed32 {
+  repeated fixed32 numbers32 = 1;
+}
+
+message NumberFixed64 {
+  fixed64 number64 = 1;
+}
+message RepeatedNumberFixed64 {
+  repeated fixed64 numbers64 = 1;
+}
+
+message NumberSFixed32 {
+  sfixed32 number32 = 1;
+}
+message RepeatedNumberSFixed32 {
+  repeated sfixed32 numbers32 = 1;
+}
+
+message NumberSFixed64 {
+  sfixed64 number64 = 1;
+}
+message RepeatedNumberSFixed64 {
+  repeated sfixed64 numbers64 = 1;
+}
+
+message NumberFloat {
+  float  number32 = 1;
+}
+message RepeatedNumberFloat {
+  repeated float numbers32 = 1;
+}
+
+message NumberDouble {
+  double number64 = 1;
+}
+message RepeatedNumberDouble {
+  repeated double numbers64 = 1;
+}
+
+message NumberBool {
+  bool value = 1;
+}
+message RepeatedNumberBool {
+  repeated bool values = 1;
+}
+
+message NumberString {
+  string value = 1;
+}
+message RepeatedNumberString {
+  repeated string values = 1;
+}
+
+message NumberBytes {
+  bytes value = 1;
+}
+message RepeatedNumberBytes {
+  repeated bytes values = 1;
+}
+
+//DO NOT CHANGE ABOVE THIS
 
 message Something {
   string something = 1;
+}
+
+message carthing {
+  Something testing = 1;
+  double reverseDistance = 2;
+  bool brake = 3;
 }
 
 message SineWavePoint {
@@ -17,4 +125,31 @@ message SineWavePoint {
   double phase = 3;
   double value = 4;
   double othertest = 5;
+  carthing thing = 6;
+}
+
+message PhoneNumber {
+  string number = 1;
+  int32  type   = 2;
+}
+
+message Person {
+  string               name   = 1;
+  int32                id     = 2;
+  repeated string      emails = 3;
+  repeated PhoneNumber phones = 4;
+  SineWavePoint sinewave = 5;
+}
+
+enum Color {
+  RED   = 0;
+  GREEN = 1;
+  BLUE  = 2;
+}
+
+// a message that uses it
+message Pixel {
+  Color c       = 1;
+  repeated Color palette = 2;
+  Person p = 3;
 }

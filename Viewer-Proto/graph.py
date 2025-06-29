@@ -6,6 +6,8 @@ from animate import PlotAnimator
 from PyQt6.QtWidgets import ( QMessageBox, QInputDialog, QStyle, QToolButton, QHBoxLayout, QWidget, QVBoxLayout, QListWidgetItem, QLabel, QSlider )
 from PyQt6.QtCore import Qt
 from utils import prompt_graph_name
+from datetime import datetime
+from dateutil.parser import parse as parse_dt  # pip install python-dateutil
 
 def try_parse_value(value):
     try:
@@ -22,6 +24,7 @@ def addGraph(self, identifiers, container, selected_key):
     dltpath, app_id, ctx_id = identifiers
 
     try:
+        # ── BEGIN REPLACEMENT ──
         keys = selected_key.split(" > ")
         base = self.struct_dictionary[dltpath][app_id][ctx_id]
 
@@ -60,14 +63,18 @@ def addGraph(self, identifiers, container, selected_key):
             raise ValueError(f'No data entries found at "{selected_key}".')
 
         inner_data_list = [root_item for root_item, _ in pairs]
-
         first_leaf = pairs[0][1]
-        available_fields = [
-            k for k, v in first_leaf.items()
-            if not isinstance(v, (dict, list))
-            and k != "timestamp"
-            and not k.startswith('@')
-        ]
+
+        def is_number_list(x):
+            return isinstance(x, list) and all(isinstance(e, (int, float, str)) for e in x)
+
+        available_fields = []
+        for k, v in first_leaf.items():
+            if k == "timestamp" or k.startswith('@'):
+                continue
+            if isinstance(v, (int, float, str)) or is_number_list(v):
+                available_fields.append(k)
+
         if not available_fields:
             raise ValueError(f'No plottable fields in "{selected_key}".')
 
@@ -83,19 +90,47 @@ def addGraph(self, identifiers, container, selected_key):
             return
 
         x_values, y_values = [], []
+
         for root_item, leaf_item in pairs:
+            raw_x = root_item.get(x_field)
+            if raw_x is None:
+                continue
+
+            # ─── parse X ───
             try:
-                x_val = try_parse_value(root_item.get(x_field))
-                y_val = try_parse_value(leaf_item.get(y_field))
-                if x_val is None or y_val is None:
-                    continue
-                x_values.append(x_val)
-                y_values.append(y_val)
+                if isinstance(raw_x, str):
+                    # parse and convert to float-seconds since epoch
+                    dt = parse_dt(raw_x)
+                    x_val = dt.timestamp()
+                else:
+                    x_val = try_parse_value(raw_x)
             except Exception:
                 continue
+            if x_val is None:
+                continue
+
+            raw_y = leaf_item.get(y_field)
+            if raw_y is None:
+                continue
+
+            def append_point(xv, y_elem):
+                try:
+                    yv = try_parse_value(y_elem)
+                except Exception:
+                    return
+                if yv is not None:
+                    x_values.append(xv)
+                    y_values.append(yv)
+
+            if isinstance(raw_y, list):
+                for elem in raw_y:
+                    append_point(x_val, elem)
+            else:
+                append_point(x_val, raw_y)
 
         if not x_values or not y_values:
             raise ValueError("Unable to extract valid numeric data for the selected fields.")
+        # ── END REPLACEMENT ──
 
         graph_mode, ok_mode = QInputDialog.getItem(
             self,
@@ -106,7 +141,7 @@ def addGraph(self, identifiers, container, selected_key):
         )
         if not ok_mode:
             return
-
+        
         x_arr = np.array(x_values)
         y_arr = np.array(y_values)
         max_points = 10000
