@@ -13,3 +13,4 @@ Encoder-MsgPack/MsgPackLibrary/build
 Encoder-Proto/ProtoLibrary/build
 Encoder-Proto/ProtoLibrary/README.md
 *.dlt
+*.json
